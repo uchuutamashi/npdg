@@ -1,0 +1,371 @@
+{
+    gStyle->SetOptStat(0);
+    TFile *tf1=  TFile::Open("Jun15/C.root");
+
+    int verbose=1;
+    int plotA=1;
+    int plotB=0;
+
+    //=================
+    //Definitions
+    //=================
+
+    TString coin = "(TDC_AT_BGO>300 && TDC_AT_BGO<400)";
+    TString pATA = "(TDC_PAT>300 && TDC_PAT<400) && TDC_AT_A>700 && TDC_AT_A <800 && TDC_Beam0>924 && TDC_Beam0<978";
+    TString E_A = "0.14*sqrt((ADC_AT_A_T-65)*(ADC_AT_A_B-77))";
+    TString E_B = "0.15*sqrt((ADC_AT_B_T-64)*(ADC_AT_B_B-62))";
+
+    TString E_ST = "(3.8199*(ADC_BGO_S_T-78))";
+    TString E_SB = "(3.4566*(ADC_BGO_S_B-67))";
+    TString E_M = "(3.27217*(ADC_BGO_M-50))";
+    TString E_LF = "(4.32*(ADC_BGO_L_F-60))";
+    TString E_LB = "(3.78307*(ADC_BGO_L_B-59))";
+
+    TString nA = "&& (ADC_AT_A_T>100 && ADC_AT_A_B>100 && abs(ADC_AT_A_T-ADC_AT_A_B)<350) && ADC_AT_A_T<2000 && ADC_AT_A_B<2000";
+    TString nB = "&& (ADC_AT_B_T>100 && ADC_AT_B_B>100 && abs(ADC_AT_B_T-ADC_AT_B_B)<350) && ADC_AT_B_T<2000 && ADC_AT_B_B<2000";
+
+    TString nAcST= nA + "&& (TDC_Beam0>503 && TDC_Beam0<563) && (TDC_BGO_S_T>785 && TDC_BGO_S_T<825)";
+    TString nAcSB= nA + "&& (TDC_Beam0>521 && TDC_Beam0<549) && (TDC_BGO_S_B>767 && TDC_BGO_S_B<789)";
+    TString nAcM= nA + "&& (TDC_Beam0>518 && TDC_Beam0<551) && (TDC_BGO_M>763 && TDC_BGO_M<808)";
+    TString nAcLF= nA + "&& (TDC_Beam0>513 && TDC_Beam0<554) && (TDC_BGO_L_F>803 && TDC_BGO_L_F<830)";
+    TString nAcLB= nA + "&& (TDC_Beam0>513 && TDC_Beam0<554) && (TDC_BGO_L_B>795 && TDC_BGO_L_B<817)";
+
+    TString nBcST= nB + "&& (TDC_Beam0>472 && TDC_Beam0<519) && (TDC_BGO_S_T>765 && TDC_BGO_S_T<812)";
+    TString nBcSB= nB + "&& (TDC_Beam0>475 && TDC_Beam0<513) && (TDC_BGO_S_B>737 && TDC_BGO_S_B<777)";
+    TString nBcM= nB + "&& (TDC_Beam0>472 && TDC_Beam0<523) && (TDC_BGO_M>737 && TDC_BGO_M<787)";
+    TString nBcLF= nB + "&& (TDC_Beam0>469 && TDC_Beam0<523) && (TDC_BGO_L_F>778 && TDC_BGO_L_F<815)";
+    TString nBcLB= nB + "&& (TDC_Beam0>472 && TDC_Beam0<529) && (TDC_BGO_L_B>771 && TDC_BGO_L_B<805)";
+
+    TString bAcST= nA + "&& (TDC_Beam0>603 && TDC_Beam0<663) && (TDC_BGO_S_T>785 && TDC_BGO_S_T<825)";
+    TString bAcSB= nA + "&& (TDC_Beam0>621 && TDC_Beam0<649) && (TDC_BGO_S_B>767 && TDC_BGO_S_B<789)";
+    TString bAcM= nA + "&& (TDC_Beam0>618 && TDC_Beam0<651) && (TDC_BGO_M>763 && TDC_BGO_M<808)";
+    TString bAcLF= nA + "&& (TDC_Beam0>613 && TDC_Beam0<654) && (TDC_BGO_L_F>803 && TDC_BGO_L_F<830)";
+    TString bAcLB= nA + "&& (TDC_Beam0>613 && TDC_Beam0<654) && (TDC_BGO_L_B>795 && TDC_BGO_L_B<817)";
+
+    TString bBcST= nB + "&& (TDC_Beam0>572 && TDC_Beam0<619) && (TDC_BGO_S_T>765 && TDC_BGO_S_T<812)";
+    TString bBcSB= nB + "&& (TDC_Beam0>575 && TDC_Beam0<613) && (TDC_BGO_S_B>737 && TDC_BGO_S_B<777)";
+    TString bBcM= nB + "&& (TDC_Beam0>572 && TDC_Beam0<623) && (TDC_BGO_M>737 && TDC_BGO_M<787)";
+    TString bBcLF= nB + "&& (TDC_Beam0>569 && TDC_Beam0<623) && (TDC_BGO_L_F>778 && TDC_BGO_L_F<815)";
+    TString bBcLB= nB + "&& (TDC_Beam0>572 && TDC_Beam0<629) && (TDC_BGO_L_B>771 && TDC_BGO_L_B<805)";
+
+if(plotA){
+    //=================
+    //AT A coincidences
+    //=================
+
+    if(verbose) cout<< "Plotting AT_A histograms..."<< endl;
+
+    if(verbose) cout<< "Region 1...";
+
+    // Region 1
+    npdg->Draw(E_A+">>hAcST1(60,0,300)",coin+nAcST+"&&"+E_ST+">2000 &&"+E_ST+"<2500");
+    npdg->Draw(E_A+">>hAcSB1(60,0,300)",coin+nAcSB+"&&"+E_SB+">2000 &&"+E_SB+"<2500");
+    npdg->Draw(E_A+">>hAcM1(60,0,300)",coin+nAcM+"&&"+E_M+">2000 &&"+E_M+"<2500");
+    npdg->Draw(E_A+">>hAcLF1(60,0,300)",coin+nAcLF+"&&"+E_LF+">2000 &&"+E_LF+"<2500");
+    npdg->Draw(E_A+">>hAcLB1(60,0,300)",coin+nAcLB+"&&"+E_LB+">2000 &&"+E_LB+"<2500");
+
+    TH1F* hAcoin1 = (TH1F*) hAcST1->Clone("hAcoin1");
+    hAcoin1->Add(hAcSB1);
+    hAcoin1->Add(hAcM1);
+    hAcoin1->Add(hAcLF1);
+    hAcoin1->Add(hAcLB1);
+
+    if(verbose) cout<< "done!"<< endl;
+    if(verbose) cout<< "Region 2...";
+
+    // Region 2
+    npdg->Draw(E_A+">>hAcST2(60,0,300)",coin+nAcST+"&&"+E_ST+">2500 &&"+E_ST+"<3000");
+    npdg->Draw(E_A+">>hAcSB2(60,0,300)",coin+nAcSB+"&&"+E_SB+">2500 &&"+E_SB+"<3000");
+    npdg->Draw(E_A+">>hAcM2(60,0,300)",coin+nAcM+"&&"+E_M+">2500 &&"+E_M+"<3000");
+    npdg->Draw(E_A+">>hAcLF2(60,0,300)",coin+nAcLF+"&&"+E_LF+">2500 &&"+E_LF+"<3000");
+    npdg->Draw(E_A+">>hAcLB2(60,0,300)",coin+nAcLB+"&&"+E_LB+">2500 &&"+E_LB+"<3000");
+
+    TH1F* hAcoin2 = (TH1F*) hAcST2->Clone("hAcoin2");
+    hAcoin2->Add(hAcSB2);
+    hAcoin2->Add(hAcM2);
+    hAcoin2->Add(hAcLF2);
+    hAcoin2->Add(hAcLB2);
+
+    if(verbose) cout<< "done!"<< endl;
+    if(verbose) cout<< "Region 3...";
+
+    // Region 3
+    npdg->Draw(E_A+">>hAcST3(60,0,300)",coin+nAcST+"&&"+E_ST+">3000 &&"+E_ST+"<3500");
+    npdg->Draw(E_A+">>hAcSB3(60,0,300)",coin+nAcSB+"&&"+E_SB+">3000 &&"+E_SB+"<3500");
+    npdg->Draw(E_A+">>hAcM3(60,0,300)",coin+nAcM+"&&"+E_M+">3000 &&"+E_M+"<3500");
+    npdg->Draw(E_A+">>hAcLF3(60,0,300)",coin+nAcLF+"&&"+E_LF+">3000 &&"+E_LF+"<3500");
+    npdg->Draw(E_A+">>hAcLB3(60,0,300)",coin+nAcLB+"&&"+E_LB+">3000 &&"+E_LB+"<3500");
+
+    TH1F* hAcoin3 = (TH1F*) hAcST3->Clone("hAcoin3");
+    hAcoin3->Add(hAcSB3);
+    hAcoin3->Add(hAcM3);
+    hAcoin3->Add(hAcLF3);
+    hAcoin3->Add(hAcLB3);
+
+
+    if(verbose) cout<< "done!"<< endl;
+
+
+    //=================
+    //AT A singles
+    //=================
+
+    npdg->Draw(E_A+">>hpATA(60,0,300)",pATA);
+
+
+/*
+    //=================
+    //AT A backgrounds
+    //=================
+
+    if(verbose) cout<< "Plotting AT_A BG histograms..."<< endl;
+
+    if(verbose) cout<< "Region 1...";
+
+    // Region 1
+    npdg->Draw(E_A+">>hAcST1bg(60,0,300)",coin+bAcST+"&&"+E_ST+">2000 &&"+E_ST+"<2500");
+    npdg->Draw(E_A+">>hAcSB1bg(60,0,300)",coin+bAcSB+"&&"+E_SB+">2000 &&"+E_SB+"<2500");
+    npdg->Draw(E_A+">>hAcM1bg(60,0,300)",coin+bAcM+"&&"+E_M+">2000 &&"+E_M+"<2500");
+    npdg->Draw(E_A+">>hAcLF1bg(60,0,300)",coin+bAcLF+"&&"+E_LF+">2000 &&"+E_LF+"<2500");
+    npdg->Draw(E_A+">>hAcLB1bg(60,0,300)",coin+bAcLB+"&&"+E_LB+">2000 &&"+E_LB+"<2500");
+
+    TH1F* hAcoin1bg = (TH1F*) hAcST1bg->Clone("hAcoin1bg");
+    hAcoin1bg->Add(hAcSB1bg);
+    hAcoin1bg->Add(hAcM1bg);
+    hAcoin1bg->Add(hAcLF1bg);
+    hAcoin1bg->Add(hAcLB1bg);
+
+    if(verbose) cout<< "done!"<< endl;
+    if(verbose) cout<< "Region 2...";
+
+    // Region 2
+    npdg->Draw(E_A+">>hAcST2bg(60,0,300)",coin+bAcST+"&&"+E_ST+">2500 &&"+E_ST+"<3000");
+    npdg->Draw(E_A+">>hAcSB2bgbg(60,0,300)",coin+bAcSB+"&&"+E_SB+">2500 &&"+E_SB+"<3000");
+    npdg->Draw(E_A+">>hAcM2bgbg(60,0,300)",coin+bAcM+"&&"+E_M+">2500 &&"+E_M+"<3000");
+    npdg->Draw(E_A+">>hAcLF2bgbg(60,0,300)",coin+bAcLF+"&&"+E_LF+">2500 &&"+E_LF+"<3000");
+    npdg->Draw(E_A+">>hAcLB2bgbg(60,0,300)",coin+bAcLB+"&&"+E_LB+">2500 &&"+E_LB+"<3000");
+
+    TH1F* hAcoin2bg = (TH1F*) hAcST2bg->Clone("hAcoin2bg");
+    hAcoin2bg->Add(hAcSB2bg);
+    hAcoin2bg->Add(hAcM2bg);
+    hAcoin2bg->Add(hAcLF2bg);
+    hAcoin2bg->Add(hAcLB2bg);
+
+    if(verbose) cout<< "done!"<< endl;
+    if(verbose) cout<< "Region 3...";
+
+    // Region 3
+    npdg->Draw(E_A+">>hAcST3bg(60,0,300)",coin+bAcST+"&&"+E_ST+">3000 &&"+E_ST+"<3500");
+    npdg->Draw(E_A+">>hAcSB3bg(60,0,300)",coin+bAcSB+"&&"+E_SB+">3000 &&"+E_SB+"<3500");
+    npdg->Draw(E_A+">>hAcM3bg(60,0,300)",coin+bAcM+"&&"+E_M+">3000 &&"+E_M+"<3500");
+    npdg->Draw(E_A+">>hAcLF3bg(60,0,300)",coin+bAcLF+"&&"+E_LF+">3000 &&"+E_LF+"<3500");
+    npdg->Draw(E_A+">>hAcLB3bg(60,0,300)",coin+bAcLB+"&&"+E_LB+">3000 &&"+E_LB+"<3500");
+
+    TH1F* hAcoin3bg = (TH1F*) hAcST3bg->Clone("hAcoin3bg");
+    hAcoin3bg->Add(hAcSB3bg);
+    hAcoin3bg->Add(hAcM3bg);
+    hAcoin3bg->Add(hAcLF3bg);
+    hAcoin3bg->Add(hAcLB3bg);
+
+
+    if(verbose) cout<< "done!"<< endl;
+
+*/
+}
+if(plotB){
+    //=================
+    //AT B coincidences
+    //=================
+
+    if(verbose) cout<< "Plotting AT_B histograms..."<< endl;
+    if(verbose) cout<< "Region 1...";
+
+    // Region 1
+    npdg->Draw(E_B+">>hBcST1(60,0,300)",coin+nBcST+"&&"+E_ST+">2000 &&"+E_ST+"<2500");
+    npdg->Draw(E_B+">>hBcSB1(60,0,300)",coin+nBcSB+"&&"+E_SB+">2000 &&"+E_SB+"<2500");
+    npdg->Draw(E_B+">>hBcM1(60,0,300)",coin+nBcM+"&&"+E_M+">2000 &&"+E_M+"<2500");
+    npdg->Draw(E_B+">>hBcLF1(60,0,300)",coin+nBcLF+"&&"+E_LF+">2000 &&"+E_LF+"<2500");
+    npdg->Draw(E_B+">>hBcLB1(60,0,300)",coin+nBcLB+"&&"+E_LB+">2000 &&"+E_LB+"<2500");
+
+    TH1F* hBcoin1 = (TH1F*) hBcST1->Clone("hBcoin1");
+    hBcoin1->Add(hBcSB1);
+    hBcoin1->Add(hBcM1);
+    hBcoin1->Add(hBcLF1);
+    hBcoin1->Add(hBcLB1);
+
+    if(verbose) cout<< "done!"<< endl;
+    if(verbose) cout<< "Region 2...";
+
+    // Region 2
+    npdg->Draw(E_B+">>hBcST2(60,0,300)",coin+nBcST+"&&"+E_ST+">2500 &&"+E_ST+"<3000");
+    npdg->Draw(E_B+">>hBcSB2(60,0,300)",coin+nBcSB+"&&"+E_SB+">2500 &&"+E_SB+"<3000");
+    npdg->Draw(E_B+">>hBcM2(60,0,300)",coin+nBcM+"&&"+E_M+">2500 &&"+E_M+"<3000");
+    npdg->Draw(E_B+">>hBcLF2(60,0,300)",coin+nBcLF+"&&"+E_LF+">2500 &&"+E_LF+"<3000");
+    npdg->Draw(E_B+">>hBcLB2(60,0,300)",coin+nBcLB+"&&"+E_LB+">2500 &&"+E_LB+"<3000");
+
+    TH1F* hBcoin2 = (TH1F*) hBcST2->Clone("hBcoin2");
+    hBcoin2->Add(hBcSB2);
+    hBcoin2->Add(hBcM2);
+    hBcoin2->Add(hBcLF2);
+    hBcoin2->Add(hBcLB2);
+
+    if(verbose) cout<< "done!"<< endl;
+    if(verbose) cout<< "Region 3...";
+
+    // Region 3
+    npdg->Draw(E_B+">>hBcST3(60,0,300)",coin+nBcST+"&&"+E_ST+">3000 &&"+E_ST+"<3500");
+    npdg->Draw(E_B+">>hBcSB3(60,0,300)",coin+nBcSB+"&&"+E_SB+">3000 &&"+E_SB+"<3500");
+    npdg->Draw(E_B+">>hBcM3(60,0,300)",coin+nBcM+"&&"+E_M+">3000 &&"+E_M+"<3500");
+    npdg->Draw(E_B+">>hBcLF3(60,0,300)",coin+nBcLF+"&&"+E_LF+">3000 &&"+E_LF+"<3500");
+    npdg->Draw(E_B+">>hBcLB3(60,0,300)",coin+nBcLB+"&&"+E_LB+">3000 &&"+E_LB+"<3500");
+
+    TH1F* hBcoin3 = (TH1F*) hBcST3->Clone("hBcoin3");
+    hBcoin3->Add(hBcSB3);
+    hBcoin3->Add(hBcM3);
+    hBcoin3->Add(hBcLF3);
+    hBcoin3->Add(hBcLB3);
+
+    if(verbose) cout<< "done!"<< endl;
+    if(verbose) cout<< "Region 4...";
+
+    // Region 4
+    npdg->Draw(E_B+">>hBcST4(60,0,300)",coin+nBcST+"&&"+E_ST+">3500 &&"+E_ST+"<4000");
+    npdg->Draw(E_B+">>hBcSB4(60,0,300)",coin+nBcSB+"&&"+E_SB+">3500 &&"+E_SB+"<4000");
+    npdg->Draw(E_B+">>hBcM4(60,0,300)",coin+nBcM+"&&"+E_M+">3500 &&"+E_M+"<4000");
+    npdg->Draw(E_B+">>hBcLF4(60,0,300)",coin+nBcLF+"&&"+E_LF+">3500 &&"+E_LF+"<4000");
+    npdg->Draw(E_B+">>hBcLB4(60,0,300)",coin+nBcLB+"&&"+E_LB+">3500 &&"+E_LB+"<4000");
+
+    TH1F* hBcoin4 = (TH1F*) hBcST4->Clone("hBcoin4");
+    hBcoin4->Add(hBcSB4);
+    hBcoin4->Add(hBcM4);
+    hBcoin4->Add(hBcLF4);
+    hBcoin4->Add(hBcLB4);
+
+    if(verbose) cout<< "done!"<< endl;
+
+    //=================
+    //AT B Backgrounds
+    //=================
+
+    if(verbose) cout<< "Plotting AT_B BG histograms..."<< endl;
+    if(verbose) cout<< "Region 1...";
+
+    // Region 1
+    npdg->Draw(E_B+">>hBcST1bg(60,0,300)",coin+bBcST+"&&"+E_ST+">2000 &&"+E_ST+"<2500");
+    npdg->Draw(E_B+">>hBcSB1bg(60,0,300)",coin+bBcSB+"&&"+E_SB+">2000 &&"+E_SB+"<2500");
+    npdg->Draw(E_B+">>hBcM1bg(60,0,300)",coin+bBcM+"&&"+E_M+">2000 &&"+E_M+"<2500");
+    npdg->Draw(E_B+">>hBcLF1bg(60,0,300)",coin+bBcLF+"&&"+E_LF+">2000 &&"+E_LF+"<2500");
+    npdg->Draw(E_B+">>hBcLB1bg(60,0,300)",coin+bBcLB+"&&"+E_LB+">2000 &&"+E_LB+"<2500");
+
+    TH1F* hBcoin1bg = (TH1F*) hBcST1bg->Clone("hBcoin1bg");
+    hBcoin1bg->Add(hBcSB1bg);
+    hBcoin1bg->Add(hBcM1bg);
+    hBcoin1bg->Add(hBcLF1bg);
+    hBcoin1bg->Add(hBcLB1bg);
+
+    if(verbose) cout<< "done!"<< endl;
+    if(verbose) cout<< "Region 2...";
+
+    // Region 2
+    npdg->Draw(E_B+">>hBcST2bg(60,0,300)",coin+bBcST+"&&"+E_ST+">2500 &&"+E_ST+"<3000");
+    npdg->Draw(E_B+">>hBcSB2bg(60,0,300)",coin+bBcSB+"&&"+E_SB+">2500 &&"+E_SB+"<3000");
+    npdg->Draw(E_B+">>hBcM2bg(60,0,300)",coin+bBcM+"&&"+E_M+">2500 &&"+E_M+"<3000");
+    npdg->Draw(E_B+">>hBcLF2bg(60,0,300)",coin+bBcLF+"&&"+E_LF+">2500 &&"+E_LF+"<3000");
+    npdg->Draw(E_B+">>hBcLB2bg(60,0,300)",coin+bBcLB+"&&"+E_LB+">2500 &&"+E_LB+"<3000");
+
+    TH1F* hBcoin2bg = (TH1F*) hBcST2bg->Clone("hBcoin2bg");
+    hBcoin2bg->Add(hBcSB2bg);
+    hBcoin2bg->Add(hBcM2bg);
+    hBcoin2bg->Add(hBcLF2bg);
+    hBcoin2bg->Add(hBcLB2bg);
+
+    if(verbose) cout<< "done!"<< endl;
+    if(verbose) cout<< "Region 3...";
+
+    // Region 3
+    npdg->Draw(E_B+">>hBcST3bg(60,0,300)",coin+bBcST+"&&"+E_ST+">3000 &&"+E_ST+"<3500");
+    npdg->Draw(E_B+">>hBcSB3bg(60,0,300)",coin+bBcSB+"&&"+E_SB+">3000 &&"+E_SB+"<3500");
+    npdg->Draw(E_B+">>hBcM3bg(60,0,300)",coin+bBcM+"&&"+E_M+">3000 &&"+E_M+"<3500");
+    npdg->Draw(E_B+">>hBcLF3bg(60,0,300)",coin+bBcLF+"&&"+E_LF+">3000 &&"+E_LF+"<3500");
+    npdg->Draw(E_B+">>hBcLB3bg(60,0,300)",coin+bBcLB+"&&"+E_LB+">3000 &&"+E_LB+"<3500");
+
+    TH1F* hBcoin3bg = (TH1F*) hBcST3bg->Clone("hBcoin3bg");
+    hBcoin3bg->Add(hBcSB3bg);
+    hBcoin3bg->Add(hBcM3bg);
+    hBcoin3bg->Add(hBcLF3bg);
+    hBcoin3bg->Add(hBcLB3bg);
+
+    if(verbose) cout<< "done!"<< endl;
+    if(verbose) cout<< "Region 4...";
+
+    // Region 4
+    npdg->Draw(E_B+">>hBcST4bg(60,0,300)",coin+bBcST+"&&"+E_ST+">3500 &&"+E_ST+"<4000");
+    npdg->Draw(E_B+">>hBcSB4bg(60,0,300)",coin+bBcSB+"&&"+E_SB+">3500 &&"+E_SB+"<4000");
+    npdg->Draw(E_B+">>hBcM4bg(60,0,300)",coin+bBcM+"&&"+E_M+">3500 &&"+E_M+"<4000");
+    npdg->Draw(E_B+">>hBcLF4bg(60,0,300)",coin+bBcLF+"&&"+E_LF+">3500 &&"+E_LF+"<4000");
+    npdg->Draw(E_B+">>hBcLB4bg(60,0,300)",coin+bBcLB+"&&"+E_LB+">3500 &&"+E_LB+"<4000");
+
+    TH1F* hBcoin4bg = (TH1F*) hBcST4bg->Clone("hBcoin4bg");
+    hBcoin4bg->Add(hBcSB4bg);
+    hBcoin4bg->Add(hBcM4bg);
+    hBcoin4bg->Add(hBcLF4bg);
+    hBcoin4bg->Add(hBcLB4bg);
+
+    if(verbose) cout<< "done!"<< endl;
+}
+/*
+    if(verbose) cout<< "Subtracting Background..." << endl;
+    //=================
+    //BG Subtraction
+    //=================
+if(plotA){
+    hAcoin1->Add(hAcoin1bg,-1);
+    hAcoin2->Add(hAcoin2bg,-1);
+    hAcoin3->Add(hAcoin3bg,-1);
+    hAcoin4->Add(hAcoin4bg,-1);
+}
+if(plotB){
+    hBcoin1->Add(hBcoin1bg,-1);
+    hBcoin2->Add(hBcoin2bg,-1);
+    hBcoin3->Add(hBcoin3bg,-1);
+    hBcoin4->Add(hBcoin4bg,-1);
+}
+*/
+    if(verbose) cout<< "Displaying..." << endl;
+    //=================
+    //Display
+    //=================
+if(plotA){
+
+    c1->Clear();
+    c1->Divide(3,1,0.01,0.01);
+    c1->cd(1);
+    hAcoin1->Draw();
+    hpATA->Draw("same");
+    c1->cd(2);
+    hAcoin2->Draw();
+    hpATA->Draw("same");
+    c1->cd(3);
+    hAcoin3->Draw();
+    hpATA->Draw("same");
+
+}
+if(plotB){
+    TCanvas *c2= new TCanvas();
+    c2->Clear();
+    c2->Divide(2,2,0.01,0.01);
+    c2->cd(1);
+    hBcoin1->Draw();
+    c2->cd(2);
+    hBcoin2->Draw();
+    c2->cd(3);
+    hBcoin3->Draw();
+    c2->cd(4);
+    hBcoin4->Draw();
+
+    cout<< "AT B Region 1 : " << hBcoin1.Integral() << endl;
+    cout<< "AT B Region 2* : " << hBcoin2.Integral() << endl;
+    cout<< "AT B Region 3 : " << hBcoin3.Integral() << endl;
+    cout<< "AT B Region 4 : " << hBcoin4.Integral() << endl;
+}
+}

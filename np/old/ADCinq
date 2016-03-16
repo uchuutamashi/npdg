@@ -1,0 +1,47 @@
+{
+    //=================
+    //Inquiry
+    //=================
+    Int_t x1,x2,y1,y2;
+
+    //TBox *b1=new TBox();
+    b1->SetFillStyle(0);
+    b1->SetLineColor(1);
+    b1->SetLineWidth(2);
+
+
+      cout<< "Integral Range (keV) x1 x2 y1 y2: " << endl;
+      cin >> x1 >> x2 >> y1 >> y2;
+      if(x1<=0){break;}
+
+      b1->SetX1(x1);
+      b1->SetX2(x2);
+      b1->SetY1(y1);
+      b1->SetY2(y2);
+
+      if(plotA){
+        x1=hAcoin->GetXaxis()->FindBin(x1);
+        x2=hAcoin->GetXaxis()->FindBin(x2);
+        y1=hAcoin->GetYaxis()->FindBin(y1);
+        y2=hAcoin->GetYaxis()->FindBin(y2);
+      }else{
+        x1=hBcoin->GetXaxis()->FindBin(x1);
+        x2=hBcoin->GetXaxis()->FindBin(x2);
+        y1=hBcoin->GetYaxis()->FindBin(y1);
+        y2=hBcoin->GetYaxis()->FindBin(y2);
+      }
+
+      c1->cd();
+      b1->Draw();
+      if(plotA && plotB) {c2->cd();b1->Draw();}
+
+      if(plotA){
+        cout << "AT-A : " << hAcoin->Integral(x1,x2,y1,y2) << endl;
+      }
+
+      if(plotB){
+        cout << "AT-B : " << hBcoin->Integral(x1,x2,y1,y2) << endl;
+      }
+
+
+}

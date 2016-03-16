@@ -1,0 +1,453 @@
+{
+
+  gStyle->SetOptStat(0);
+  TFile *f1 = TFile::Open("working/events.root");
+
+  std::ostringstream common_cut, cut, common_cut1, cut1;
+
+
+  // ====== Signal Region ======
+
+  // Common TDC cuts
+  // AT-BGO coincidence
+  common_cut << "(TDC_AT_BGO > 300 && TDC_AT_BGO < 350)";
+
+  // Beam neutron
+  common_cut << "&& (0.2632*TDC_Beam0+13.4>130 &&0.2632*TDC_Beam0+13.4<170)";
+
+
+  // ------ AcST ------
+  cut << common_cut.str();
+
+  // AT-A exclusive
+  cut << "&& (TDC_AT_A >300 && TDC_AT_A <400) && TDC_AT_B>1600";
+
+  // Soft top-bottom coincidence
+  cut << "&& (ADC_AT_A_T>100 && ADC_AT_A_B>100)";
+  cut << "&& abs(ADC_AT_A_T-ADC_AT_A_B)<350";
+
+  // BGO exclusive
+  cut << "&& (TDC_BGO_S_T > 785 && TDC_BGO_S_T<825)";
+  cut << "&& (TDC_BGO_S_B>1600 && TDC_BGO_M>1600 && TDC_BGO_L_F>1600 && TDC_BGO_L_B>1600)";
+
+  // Draw
+  npdg->Draw("(sqrt(0.1429*0.1361*(ADC_AT_A_T-65)*(ADC_AT_A_B-77))):(3.8199*(ADC_BGO_S_T-78))>>hAST(40,2000,6000,20,0,200)",cut.str().c_str());
+
+  cout<< cut.str() <<endl; cut.str(""); cut.clear();
+
+  // ------ AcSB ------
+  cut << common_cut.str();
+
+  // AT-A exclusive
+  cut << "&& (TDC_AT_A >300 && TDC_AT_A <400) && TDC_AT_B>1600";
+
+  // Soft top-bottom coincidence
+  cut << "&& (ADC_AT_A_T>100 && ADC_AT_A_B>100)";
+  cut << "&& abs(ADC_AT_A_T-ADC_AT_A_B)<350";
+
+  // BGO exclusive
+  cut << "&& (TDC_BGO_S_B > 767 && TDC_BGO_S_B<789)";
+  cut << "&& (TDC_BGO_S_T>1600 && TDC_BGO_M>1600 && TDC_BGO_L_F>1600 && TDC_BGO_L_B>1600)";
+
+  // Draw
+  npdg->Draw("(sqrt(0.1429*0.1361*(ADC_AT_A_T-65)*(ADC_AT_A_B-77))):(3.4566*(ADC_BGO_S_B-67))>>hASB(40,2000,6000,20,0,200)",cut.str().c_str());
+
+  cout<< cut.str() <<endl; cut.str(""); cut.clear();
+
+  // ------ AcM ------
+  cut << common_cut.str();
+
+  // AT-A exclusive
+  cut << "&& (TDC_AT_A >300 && TDC_AT_A <400) && TDC_AT_B>1600";
+
+  // Soft top-bottom coincidence
+  cut << "&& (ADC_AT_A_T>100 && ADC_AT_A_B>100)";
+  cut << "&& abs(ADC_AT_A_T-ADC_AT_A_B)<350";
+
+  // BGO exclusive
+  cut << "&& (TDC_BGO_M > 763 && TDC_BGO_M<808)";
+  cut << "&& (TDC_BGO_S_T>1600 && TDC_BGO_S_B>1600 && TDC_BGO_L_F>1600 && TDC_BGO_L_B>1600)";
+
+  // Draw
+  npdg->Draw("(sqrt(0.1429*0.1361*(ADC_AT_A_T-65)*(ADC_AT_A_B-77))):(3.27217*(ADC_BGO_M-50))>>hAM(40,2000,6000,20,0,200)",cut.str().c_str());
+
+  cout<< cut.str() <<endl; cut.str(""); cut.clear();
+
+  // ------ AcLF ------
+  cut << common_cut.str();
+
+  // AT-A exclusive
+  cut << "&& (TDC_AT_A >300 && TDC_AT_A <400) && TDC_AT_B>1600";
+
+  // Soft top-bottom coincidence
+  cut << "&& (ADC_AT_A_T>100 && ADC_AT_A_B>100)";
+  cut << "&& abs(ADC_AT_A_T-ADC_AT_A_B)<350";
+
+  // BGO exclusive
+  cut << "&& (TDC_BGO_L_F > 803 && TDC_BGO_L_F<830)";
+  cut << "&& (TDC_BGO_S_T>1600 && TDC_BGO_S_B>1600 && TDC_BGO_M>1600 && TDC_BGO_L_B>1600)";
+
+  // Draw
+  npdg->Draw("(sqrt(0.1429*0.1361*(ADC_AT_A_T-65)*(ADC_AT_A_B-77))):(4.32*(ADC_BGO_L_F-60))>>hALF(40,2000,6000,20,0,200)",cut.str().c_str());
+
+  cout<< cut.str() <<endl; cut.str(""); cut.clear();
+
+  // ------ AcLB ------
+  cut << common_cut.str();
+
+  // AT-A exclusive
+  cut << "&& (TDC_AT_A >300 && TDC_AT_A <400) && TDC_AT_B>1600";
+
+  // Soft top-bottom coincidence
+  cut << "&& (ADC_AT_A_T>100 && ADC_AT_A_B>100)";
+  cut << "&& abs(ADC_AT_A_T-ADC_AT_A_B)<350";
+
+  // BGO exclusive
+  cut << "&& (TDC_BGO_L_B > 795 && TDC_BGO_L_B<817)";
+  cut << "&& (TDC_BGO_S_T>1600 && TDC_BGO_S_B>1600 && TDC_BGO_M>1600 && TDC_BGO_L_F>1600)";
+
+  // Draw
+  npdg->Draw("(sqrt(0.1429*0.1361*(ADC_AT_A_T-65)*(ADC_AT_A_B-77))):(3.78307*(ADC_BGO_L_B-59))>>hALB(40,2000,6000,20,0,200)",cut.str().c_str());
+
+
+  cout<< cut.str() <<endl; cut.str(""); cut.clear();
+
+  // ------ BcST ------
+  cut << common_cut.str();
+
+  // AT-B exclusive
+  cut << "&& (TDC_AT_B >300 && TDC_AT_B <400) && TDC_AT_A>1600";
+
+  // Soft top-bottom coincidence
+  cut << "&& (ADC_AT_B_T>100 && ADC_AT_B_B>100)";
+  cut << "&& abs(ADC_AT_B_T-ADC_AT_B_B)<350";
+
+  // BGO exclusive
+  cut << "&& (TDC_BGO_S_T > 765 && TDC_BGO_S_T<812)";
+  cut << "&& (TDC_BGO_S_B>1600 && TDC_BGO_M>1600 && TDC_BGO_L_F>1600 && TDC_BGO_L_B>1600)";
+
+  // Draw
+  npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_B_T-63)*(ADC_AT_B_B-62))):(3.8199*(ADC_BGO_S_T-78))>>hBST(40,2000,6000,20,0,200)",cut.str().c_str());
+
+  cout<< cut.str() <<endl; cut.str(""); cut.clear();
+
+  // ------ BcSB ------
+  cut << common_cut.str();
+
+  // AT-B exclusive
+  cut << "&& (TDC_AT_B >300 && TDC_AT_B <400) && TDC_AT_A>1600";
+
+  // Soft top-bottom coincidence
+  cut << "&& (ADC_AT_B_T>100 && ADC_AT_B_B>100)";
+  cut << "&& abs(ADC_AT_B_T-ADC_AT_B_B)<350";
+
+  // BGO exclusive
+  cut << "&& (TDC_BGO_S_B > 737 && TDC_BGO_S_T<777)";
+  cut << "&& (TDC_BGO_S_T>1600 && TDC_BGO_M>1600 && TDC_BGO_L_F>1600 && TDC_BGO_L_B>1600)";
+
+  // Draw
+  npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_B_T-63)*(ADC_AT_B_B-62))):(3.4566*(ADC_BGO_S_B-67))>>hBSB(40,2000,6000,20,0,200)",cut.str().c_str());
+
+  cout<< cut.str() <<endl; cut.str(""); cut.clear();
+
+  // ------ BcM ------
+  cut << common_cut.str();
+
+  // AT-B exclusive
+  cut << "&& (TDC_AT_B >300 && TDC_AT_B <400) && TDC_AT_A>1600";
+
+  // Soft top-bottom coincidence
+  cut << "&& (ADC_AT_B_T>100 && ADC_AT_B_B>100)";
+  cut << "&& abs(ADC_AT_B_T-ADC_AT_B_B)<350";
+
+  // BGO exclusive
+  cut << "&& (TDC_BGO_M > 737 && TDC_BGO_M<787)";
+  cut << "&& (TDC_BGO_S_T>1600 && TDC_BGO_S_B>1600 && TDC_BGO_L_F>1600 && TDC_BGO_L_B>1600)";
+
+  // Draw
+  npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_B_T-63)*(ADC_AT_B_B-62))):(3.27217*(ADC_BGO_M-50))>>hBM(40,2000,6000,20,0,200)",cut.str().c_str());
+
+  cout<< cut.str() <<endl; cut.str(""); cut.clear();
+
+  // ------ BcLF ------
+  cut << common_cut.str();
+
+  // AT-B exclusive
+  cut << "&& (TDC_AT_B >300 && TDC_AT_B <400) && TDC_AT_A>1600";
+
+  // Soft top-bottom coincidence
+  cut << "&& (ADC_AT_B_T>100 && ADC_AT_B_B>100)";
+  cut << "&& abs(ADC_AT_B_T-ADC_AT_B_B)<350";
+
+  // BGO exclusive
+  cut << "&& (TDC_BGO_L_F > 778 && TDC_BGO_L_F<815)";
+  cut << "&& (TDC_BGO_S_T>1600 && TDC_BGO_S_B>1600 && TDC_BGO_M>1600 && TDC_BGO_L_B>1600)";
+
+  // Draw
+  npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_B_T-63)*(ADC_AT_B_B-62))):(4.32*(ADC_BGO_L_F-60))>>hBLF(40,2000,6000,20,0,200)",cut.str().c_str());
+
+  cout<< cut.str() <<endl; cut.str(""); cut.clear();
+
+  // ------ BcLB ------
+  cut << common_cut.str();
+
+  // AT-B exclusive
+  cut << "&& (TDC_AT_B >300 && TDC_AT_B <400) && TDC_AT_A>1600";
+
+  // Soft top-bottom coincidence
+  cut << "&& (ADC_AT_B_T>100 && ADC_AT_B_B>100)";
+  cut << "&& abs(ADC_AT_B_T-ADC_AT_B_B)<350";
+
+  // BGO exclusive
+  cut << "&& (TDC_BGO_L_B > 771 && TDC_BGO_L_B<805)";
+  cut << "&& (TDC_BGO_S_T>1600 && TDC_BGO_S_B>1600 && TDC_BGO_M>1600 && TDC_BGO_L_F>1600)";
+
+  // Draw
+  npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_B_T-63)*(ADC_AT_B_B-62))):(3.78307*(ADC_BGO_L_B-59))>>hBLB(40,2000,6000,20,0,200)",cut.str().c_str());
+
+  // Additions
+  hASB->Add(hAST);
+  hAM->Add(hASB);
+  hALF->Add(hAM);
+  hALB->Add(hALF);
+  hBST->Add(hALB);
+  hBSB->Add(hBST);
+  hBM->Add(hBSB);
+  hBLF->Add(hBM);
+  hBLB->Add(hBLF);
+
+  // Rename
+  TH2F *h1 = (TH2F*)gDirectory->Get("hBLB");
+
+
+  // ====== Background ======
+
+  // Common TDC cuts
+  // AT-BGO coincidence
+  common_cut1 << "(TDC_AT_BGO > 300 && TDC_AT_BGO < 350)";
+
+  // Beam nothing
+  common_cut1 << "&& (0.2632*TDC_Beam0+13.4>200 &&0.2632*TDC_Beam0+13.4<240)";
+
+
+  // ------ AcST ------
+  cut1 << common_cut1.str();
+
+  // AT-A exclusive
+  cut1 << "&& (TDC_AT_A >300 && TDC_AT_A <400) && TDC_AT_B>1600";
+
+  // Soft top-bottom coincidence
+  cut1 << "&& (ADC_AT_A_T>100 && ADC_AT_A_B>100)";
+  cut1 << "&& abs(ADC_AT_A_T-ADC_AT_A_B)<350";
+
+  // BGO exclusive
+  cut1 << "&& (TDC_BGO_S_T > 785 && TDC_BGO_S_T<789)";
+  cut1 << "&& (TDC_BGO_S_B>1600 && TDC_BGO_M>1600 && TDC_BGO_L_F>1600 && TDC_BGO_L_B>1600)";
+
+  // Draw
+  npdg->Draw("(sqrt(0.1429*0.1361*(ADC_AT_A_T-65)*(ADC_AT_A_B-77))):(3.8199*(ADC_BGO_S_T-78))>>hAST1(40,2000,6000,20,0,200)",cut1.str().c_str());
+
+  cout<< cut1.str() <<endl; cut1.str(""); cut1.clear();
+
+  // ------ AcSB ------
+  cut1 << common_cut1.str();
+
+  // AT-A exclusive
+  cut1 << "&& (TDC_AT_A >300 && TDC_AT_A <400) && TDC_AT_B>1600";
+
+  // Soft top-bottom coincidence
+  cut1 << "&& (ADC_AT_A_T>100 && ADC_AT_A_B>100)";
+  cut1 << "&& abs(ADC_AT_A_T-ADC_AT_A_B)<350";
+
+  // BGO exclusive
+  cut1 << "&& (TDC_BGO_S_B > 767 && TDC_BGO_S_B<789)";
+  cut1 << "&& (TDC_BGO_S_T>1600 && TDC_BGO_M>1600 && TDC_BGO_L_F>1600 && TDC_BGO_L_B>1600)";
+
+  // Draw
+  npdg->Draw("(sqrt(0.1429*0.1361*(ADC_AT_A_T-65)*(ADC_AT_A_B-77))):(3.4566*(ADC_BGO_S_B-67))>>hASB1(40,2000,6000,20,0,200)",cut1.str().c_str());
+
+  cout<< cut1.str() <<endl; cut1.str(""); cut1.clear();
+
+  // ------ AcM ------
+  cut1 << common_cut1.str();
+
+  // AT-A exclusive
+  cut1 << "&& (TDC_AT_A >300 && TDC_AT_A <400) && TDC_AT_B>1600";
+
+  // Soft top-bottom coincidence
+  cut1 << "&& (ADC_AT_A_T>100 && ADC_AT_A_B>100)";
+  cut1 << "&& abs(ADC_AT_A_T-ADC_AT_A_B)<350";
+
+  // BGO exclusive
+  cut1 << "&& (TDC_BGO_M > 763 && TDC_BGO_M<808)";
+  cut1 << "&& (TDC_BGO_S_T>1600 && TDC_BGO_S_B>1600 && TDC_BGO_L_F>1600 && TDC_BGO_L_B>1600)";
+
+  // Draw
+  npdg->Draw("(sqrt(0.1429*0.1361*(ADC_AT_A_T-65)*(ADC_AT_A_B-77))):(3.27217*(ADC_BGO_M-50))>>hAM1(40,2000,6000,20,0,200)",cut1.str().c_str());
+
+  cout<< cut1.str() <<endl; cut1.str(""); cut1.clear();
+
+  // ------ AcLF ------
+  cut1 << common_cut.str();
+
+  // AT-A exclusive
+  cut1 << "&& (TDC_AT_A >300 && TDC_AT_A <400) && TDC_AT_B>1600";
+
+  // Soft top-bottom coincidence
+  cut1 << "&& (ADC_AT_A_T>100 && ADC_AT_A_B>100)";
+  cut1 << "&& abs(ADC_AT_A_T-ADC_AT_A_B)<350";
+
+  // BGO exclusive
+  cut1 << "&& (TDC_BGO_L_F > 803 && TDC_BGO_L_F<830)";
+  cut1 << "&& (TDC_BGO_S_T>1600 && TDC_BGO_S_B>1600 && TDC_BGO_M>1600 && TDC_BGO_L_B>1600)";
+
+  // Draw
+  npdg->Draw("(sqrt(0.1429*0.1361*(ADC_AT_A_T-65)*(ADC_AT_A_B-77))):(4.32*(ADC_BGO_L_F-60))>>hALF1(40,2000,6000,20,0,200)",cut1.str().c_str());
+
+  cout<< cut1.str() <<endl; cut1.str(""); cut1.clear();
+
+  // ------ AcLB ------
+  cut1 << common_cut1.str();
+
+  // AT-A exclusive
+  cut1 << "&& (TDC_AT_A >300 && TDC_AT_A <400) && TDC_AT_B>1600";
+
+  // Soft top-bottom coincidence
+  cut1 << "&& (ADC_AT_A_T>100 && ADC_AT_A_B>100)";
+  cut1 << "&& abs(ADC_AT_A_T-ADC_AT_A_B)<350";
+
+  // BGO exclusive
+  cut1 << "&& (TDC_BGO_L_B > 795 && TDC_BGO_L_B<817)";
+  cut1 << "&& (TDC_BGO_S_T>1600 && TDC_BGO_S_B>1600 && TDC_BGO_M>1600 && TDC_BGO_L_F>1600)";
+
+  // Draw
+  npdg->Draw("(sqrt(0.1429*0.1361*(ADC_AT_A_T-65)*(ADC_AT_A_B-77))):(3.78307*(ADC_BGO_L_B-59))>>hALB1(40,2000,6000,20,0,200)",cut1.str().c_str());
+
+
+  cout<< cut1.str() <<endl; cut1.str(""); cut1.clear();
+
+  // ------ BcST ------
+  cut1 << common_cut1.str();
+
+  // AT-B exclusive
+  cut1 << "&& (TDC_AT_B >300 && TDC_AT_B <400) && TDC_AT_A>1600";
+
+  // Soft top-bottom coincidence
+  cut1 << "&& (ADC_AT_B_T>100 && ADC_AT_B_B>100)";
+  cut1 << "&& abs(ADC_AT_B_T-ADC_AT_B_B)<350";
+
+  // BGO exclusive
+  cut1 << "&& (TDC_BGO_S_T > 765 && TDC_BGO_S_T<812)";
+  cut1 << "&& (TDC_BGO_S_B>1600 && TDC_BGO_M>1600 && TDC_BGO_L_F>1600 && TDC_BGO_L_B>1600)";
+
+  // Draw
+  npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_B_T-63)*(ADC_AT_B_B-62))):(3.8199*(ADC_BGO_S_T-78))>>hBST1(40,2000,6000,20,0,200)",cut1.str().c_str());
+
+  cout<< cut1.str() <<endl; cut1.str(""); cut1.clear();
+
+  // ------ BcSB ------
+  cut1 << common_cut1.str();
+
+  // AT-B exclusive
+  cut1 << "&& (TDC_AT_B >300 && TDC_AT_B <400) && TDC_AT_A>1600";
+
+  // Soft top-bottom coincidence
+  cut1 << "&& (ADC_AT_B_T>100 && ADC_AT_B_B>100)";
+  cut1 << "&& abs(ADC_AT_B_T-ADC_AT_B_B)<350";
+
+  // BGO exclusive
+  cut1 << "&& (TDC_BGO_S_B > 737 && TDC_BGO_S_T<777)";
+  cut1 << "&& (TDC_BGO_S_T>1600 && TDC_BGO_M>1600 && TDC_BGO_L_F>1600 && TDC_BGO_L_B>1600)";
+
+  // Draw
+  npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_B_T-63)*(ADC_AT_B_B-62))):(3.4566*(ADC_BGO_S_B-67))>>hBSB1(40,2000,6000,20,0,200)",cut1.str().c_str());
+
+  cout<< cut1.str() <<endl; cut1.str(""); cut1.clear();
+
+  // ------ BcM ------
+  cut1 << common_cut1.str();
+
+  // AT-B exclusive
+  cut1 << "&& (TDC_AT_B >300 && TDC_AT_B <400) && TDC_AT_A>1600";
+
+  // Soft top-bottom coincidence
+  cut1 << "&& (ADC_AT_B_T>100 && ADC_AT_B_B>100)";
+  cut1 << "&& abs(ADC_AT_B_T-ADC_AT_B_B)<350";
+
+  // BGO exclusive
+  cut1 << "&& (TDC_BGO_M > 737 && TDC_BGO_M<787)";
+  cut1 << "&& (TDC_BGO_S_T>1600 && TDC_BGO_S_B>1600 && TDC_BGO_L_F>1600 && TDC_BGO_L_B>1600)";
+
+  // Draw
+  npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_B_T-63)*(ADC_AT_B_B-62))):(3.27217*(ADC_BGO_M-50))>>hBM1(40,2000,6000,20,0,200)",cut1.str().c_str());
+
+  cout<< cut1.str() <<endl; cut1.str(""); cut1.clear();
+
+  // ------ BcLF ------
+  cut1 << common_cut1.str();
+
+  // AT-B exclusive
+  cut1 << "&& (TDC_AT_B >300 && TDC_AT_B <400) && TDC_AT_A>1600";
+
+  // Soft top-bottom coincidence
+  cut1 << "&& (ADC_AT_B_T>100 && ADC_AT_B_B>100)";
+  cut1 << "&& abs(ADC_AT_B_T-ADC_AT_B_B)<350";
+
+  // BGO exclusive
+  cut1 << "&& (TDC_BGO_L_F > 778 && TDC_BGO_L_F<815)";
+  cut1 << "&& (TDC_BGO_S_T>1600 && TDC_BGO_S_B>1600 && TDC_BGO_M>1600 && TDC_BGO_L_B>1600)";
+
+  // Draw
+  npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_B_T-63)*(ADC_AT_B_B-62))):(4.32*(ADC_BGO_L_F-60))>>hBLF1(40,2000,6000,20,0,200)",cut1.str().c_str());
+
+  cout<< cut1.str() <<endl; cut1.str(""); cut1.clear();
+
+  // ------ BcLB ------
+  cut1 << common_cut1.str();
+
+  // AT-B exclusive
+  cut1 << "&& (TDC_AT_B >300 && TDC_AT_B <400) && TDC_AT_A>1600";
+
+  // Soft top-bottom coincidence
+  cut1 << "&& (ADC_AT_B_T>100 && ADC_AT_B_B>100)";
+  cut1 << "&& abs(ADC_AT_B_T-ADC_AT_B_B)<350";
+
+  // BGO exclusive
+  cut1 << "&& (TDC_BGO_L_B > 771 && TDC_BGO_L_B<805)";
+  cut1 << "&& (TDC_BGO_S_T>1600 && TDC_BGO_S_B>1600 && TDC_BGO_M>1600 && TDC_BGO_L_F>1600)";
+
+  // Draw
+  npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_B_T-63)*(ADC_AT_B_B-62))):(3.78307*(ADC_BGO_L_B-59))>>hBLB1(40,2000,6000,20,0,200)",cut1.str().c_str());
+
+  // Additions
+  hASB1->Add(hAST1);
+  hAM1->Add(hASB1);
+  hALF1->Add(hAM1);
+  hALB1->Add(hALF1);
+  hBST1->Add(hALB1);
+  hBSB1->Add(hBST1);
+  hBM1->Add(hBSB1);
+  hBLF1->Add(hBM1);
+  hBLB1->Add(hBLF1);
+
+  // Rename
+  TH2F *h2 = (TH2F*)gDirectory->Get("hBLB1");
+
+  // Integral range
+  Int_t x1=h1->GetXaxis()->FindBin(2500);
+  Int_t x2=h1->GetXaxis()->FindBin(3000);
+  Int_t y1=h1->GetYaxis()->FindBin(30);
+  Int_t y2=h1->GetYaxis()->FindBin(120);
+
+  cout << h1->Integral(x1,x2,y1,y2) << endl;
+  cout << h2->Integral(x1,x2,y1,y2) << endl;
+
+  //h1->Add(h2,-1);
+  h1->Draw("colz");
+
+  TBox *b1 = new TBox(2500,30,3000,120);
+  b1->SetFillStyle(0);
+  b1->SetLineColor(1);
+  b1->SetLineWidth(2);
+  b1->Draw();
+}

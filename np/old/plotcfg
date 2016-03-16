@@ -1,0 +1,60 @@
+{
+
+#ifndef NPPLOT
+#include <sstream>
+#define NPPLOT 1
+
+//TDC ranges
+Int_t TDC_A_min, TDC_A_max;
+Int_t TDC_B_min, TDC_B_max;
+Int_t TDC_LL_min, TDC_LL_max;
+Int_t TDC_LR_min, TDC_LR_max;
+Int_t TDC_M_min, TDC_M_max;
+Int_t TDC_SL_min, TDC_SL_max;
+Int_t TDC_SR_min, TDC_SR_max;
+
+Int_t ADC_A_min, ADC_A_max;
+Int_t ADC_B_min, ADC_B_max;
+Int_t ADC_LL_min, ADC_LL_max;
+Int_t ADC_LR_min, ADC_LR_max;
+Int_t ADC_M_min, ADC_M_max;
+Int_t ADC_SL_min, ADC_SL_max;
+Int_t ADC_SR_min, ADC_SR_max;
+
+#endif
+
+TDC_A_min=468;
+TDC_A_max=474;
+TDC_B_min=400;
+TDC_B_max=500;
+TDC_LL_min=300;
+TDC_LL_max=500;
+TDC_LR_min=300;
+TDC_LR_max=500;
+TDC_M_min=400;
+TDC_M_max=450;
+TDC_SL_min=300;
+TDC_SL_max=500;
+TDC_SR_min=300;
+TDC_SR_max=500;
+
+//calibrated from 29Jan
+ADC_A_min=45; //~45
+ADC_A_max=85; //~85
+ADC_B_min=72;
+ADC_B_max=111;
+
+//calibrated from 29Jan (rough)
+ADC_LL_min=441;
+ADC_LL_max=473;
+ADC_LR_min=372;
+ADC_LR_max=402;
+ADC_M_min=657;
+ADC_M_max=711;
+ADC_SL_min=585;
+ADC_SL_max=643;
+ADC_SR_min=828;
+ADC_SR_max=897;
+
+
+}

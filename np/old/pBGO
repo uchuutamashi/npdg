@@ -1,0 +1,39 @@
+{
+  gStyle->SetOptStat(0);
+  TFile *f1 = TFile::Open("Jun15/data.root");
+
+  // Data
+  npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_A_T-65)*(ADC_AT_A_B-77))):(3.8199*(ADC_BGO_S_T-78))>>hAST(20,2000,4000,20,0,200)","TDC_BGO_S_T>640 && TDC_BGO_S_T<680 && TDC_PBGO>350 && TDC_PBGO<400");
+  npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_A_T-65)*(ADC_AT_A_B-77))):(3.27217*(ADC_BGO_S_B-67))>>hASB(20,2000,4000,20,0,200)","TDC_BGO_S_B>600 && TDC_BGO_S_B<650 && TDC_PBGO>350 && TDC_PBGO<400");
+  npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_A_T-65)*(ADC_AT_A_B-77))):(3.27217*(ADC_BGO_M-50))>>hAM(20,2000,4000,20,0,200)","TDC_BGO_M>640 && TDC_BGO_M<680 && TDC_PBGO>350 && TDC_PBGO<400");
+  npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_A_T-65)*(ADC_AT_A_B-77))):(4.4728*(ADC_BGO_L_F-60))>>hALF(20,2000,4000,20,0,200)","TDC_BGO_L_F>560 && TDC_BGO_L_F<640 && TDC_PBGO>350 && TDC_PBGO<400");
+  npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_A_T-65)*(ADC_AT_A_B-77))):(3.78307*(ADC_BGO_L_B-59))>>hALB(20,2000,4000,20,0,200)","TDC_BGO_L_B>560 && TDC_BGO_L_B<640 && TDC_PBGO>350 && TDC_PBGO<400");
+
+  npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_B_T-63)*(ADC_AT_B_B-62))):(3.8199*(ADC_BGO_S_T-78))>>hBST(20,2000,4000,20,0,200)","TDC_BGO_S_T>640 && TDC_BGO_S_T<680 && TDC_PBGO>350 && TDC_PBGO<400 && 0.1449*(ADC_AT_B_T-63)>10 && 0.1583*(ADC_AT_B_B-62)>10");
+  npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_B_T-63)*(ADC_AT_B_B-62))):(3.27217*(ADC_BGO_S_B-67))>>hBSB(20,2000,4000,20,0,200)","TDC_BGO_S_B>600 && TDC_BGO_S_B<650 && TDC_PBGO>350 && TDC_PBGO<400&& 0.1449*(ADC_AT_B_T-63)>10 && 0.1583*(ADC_AT_B_B-62)>10");
+  npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_B_T-63)*(ADC_AT_B_B-62))):(3.27217*(ADC_BGO_M-50))>>hBM(20,2000,4000,20,0,200)","TDC_BGO_M>640 && TDC_BGO_M<680 && TDC_PBGO>350 && TDC_PBGO<400&&  0 && 0.1449*(ADC_AT_B_T-63)>10 && 0.1583*(ADC_AT_B_B-62)>10");
+  npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_B_T-63)*(ADC_AT_B_B-62))):(4.4728*(ADC_BGO_L_F-60))>>hBLF(20,2000,4000,20,0,200)","TDC_BGO_L_F>560 && TDC_BGO_L_F<640&& TDC_PBGO>350 && TDC_PBGO<400&& 0.1449*(ADC_AT_B_T-63)>10 && 0.1583*(ADC_AT_B_B-62)>10");
+  npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_B_T-63)*(ADC_AT_B_B-62))):(3.78307*(ADC_BGO_L_B-59))>>hBLB(20,2000,4000,20,0,200)","TDC_BGO_L_B>560 && TDC_BGO_L_B<640&& TDC_PBGO>350 && TDC_PBGO<400&& 0.1449*(ADC_AT_B_T-63)>10 && 0.1583*(ADC_AT_B_B-62)>10");
+
+  hASB->Add(hAST);
+  hAM->Add(hASB);
+  hALF->Add(hAM);
+  hALB->Add(hALF);
+  hBST->Add(hALB);
+  hBSB->Add(hBST);
+  hBM->Add(hBSB);
+  hBLF->Add(hBM);
+  hBLB->Add(hBLF);
+
+  TH2F *h1 = (TH2F*)gDirectory->Get("hBLB");
+
+
+  h1->Draw("colz");
+  h1->SetTitle("E_{AT} vs E_{BGO} (pBGO)");
+
+  TBox *b1 = new TBox(2400,10,2700,50);
+  b1->SetFillStyle(0);
+  b1->SetLineColor(1);
+  b1->SetLineWidth(2);
+  b1->Draw();
+}

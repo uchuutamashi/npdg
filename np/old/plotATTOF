@@ -1,0 +1,26 @@
+{
+
+//import root file & cut settings
+gROOT->ProcessLine(".x np/plotcfg");
+
+//build string specifying cut
+std::ostringstream oss;
+
+//AT A cut
+oss << "( sqrt(ADC_AT_A_T*ADC_AT_A_B) >" << ADC_A_min << " && sqrt(ADC_AT_A_T*ADC_AT_A_B) <" << ADC_A_max <<") &&";
+
+//BGO TDC cut
+//oss << "(TDC_BGO_M>" << TDC_M_min << " && TDC_BGO_M <" << TDC_M_max <<") &&";
+
+//BGO cuts
+//oss << "(ADC_BGO_L_L> "<<ADC_LL_min<<" && ADC_BGO_L_L < "<<ADC_LL_max<<")";
+//oss << "(ADC_BGO_L_R> "<<ADC_LR_min<<" && ADC_BGO_L_R < "<<ADC_LR_max<<")";
+oss << "(ADC_BGO_M> "<<ADC_M_min<<" && ADC_BGO_M < "<<ADC_M_max<<")";
+//oss << "(ADC_BGO_S_L> "<<ADC_SL_min<<" && ADC_BGO_S_L < "<<ADC_SL_max<<") ";
+//oss << "(ADC_BGO_S_R> "<<ADC_SR_min<<" && ADC_BGO_S_R < "<<ADC_SR_max<<")";
+
+cout << "Cut applied: " << oss.str() << endl;
+
+npdg->Draw("TDC_AT_A>>(2000,0,2000)",oss.str().c_str());
+
+}

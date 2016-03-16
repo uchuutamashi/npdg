@@ -1,0 +1,9 @@
+{
+    gStyle->SetOptStat(0);
+    TFile *tf1=  TFile::Open("Jun15/C.root");
+
+    TCanvas* c1= new TCanvas();
+    c1->Divide
+
+
+}

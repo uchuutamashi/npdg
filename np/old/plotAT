@@ -1,0 +1,140 @@
+{
+    gStyle->SetOptStat(0);
+    TFile *tf1=  TFile::Open("Jun15/C.root");
+
+    // AT Response coin cut
+    // +TDC-AT-BGO
+    // +TDC-AT
+    // +TDC-Beam0-neutron1
+    // +ADC-non-overflow
+    // +ADC-non-zero
+    // +TDC-not-AT-ND
+    // ++BGOResp-Cut
+    // ++AT-Band-Cut
+    npdg->Draw("0.14*sqrt((ADC_AT_A_T-65)*(ADC_AT_A_B-77))>>hAcoin(60,0,300)", "TDC_AT_BGO>300 && TDC_AT_BGO<400 && TDC_AT_A>300 && TDC_AT_A<400 && TDC_Beam0>750 && TDC_Beam0<1000 && ADC_AT_A_T<1900 && ADC_AT_A_B<1900 && ADC_AT_A_T>100 && ADC_AT_A_B>100 && TDC_AT_ND>1600 && abs(ADC_AT_A_T-ADC_AT_A_B)<350");
+    npdg->Draw("0.14*sqrt((ADC_AT_A_T-65)*(ADC_AT_A_B-77))>>hAcoin1(60,0,300)", "TDC_AT_BGO>300 && TDC_AT_BGO<400 && TDC_AT_A>300 && TDC_AT_A<400 && TDC_Beam0>750 && TDC_Beam0<1000 && ADC_AT_A_T<1900 && ADC_AT_A_B<1900 && ADC_AT_A_T>100 && ADC_AT_A_B>100 && TDC_AT_ND>1600 && abs(ADC_AT_A_T-ADC_AT_A_B)<350  && ( (TDC_BGO_L_F>778 && TDC_BGO_L_F<815 && 4.32*(ADC_BGO_L_F-60) >1500 && 4.32*(ADC_BGO_L_F-60) <2000) || (TDC_BGO_L_B>771 && TDC_BGO_L_B<805 && 3.78307*(ADC_BGO_L_B-59) >1500 && 3.78307*(ADC_BGO_L_B-59) <2000) )");
+
+    npdg->Draw("0.15*sqrt((ADC_AT_B_T-64)*(ADC_AT_B_B-62))>>hBcoin(60,0,300)", "TDC_AT_BGO>300 && TDC_AT_BGO<400 && TDC_AT_B>300 && TDC_AT_B<400 && TDC_Beam0>750 && TDC_Beam0<1000 && ADC_AT_B_T<1800 && ADC_AT_B_B<1800 && ADC_AT_B_T>100 && ADC_AT_B_B>100 && TDC_AT_ND>1600 && abs(ADC_AT_B_T-ADC_AT_B_B)<350");
+    npdg->Draw("0.15*sqrt((ADC_AT_B_T-64)*(ADC_AT_B_B-62))>>hBcoin1(60,0,300)", "TDC_AT_BGO>300 && TDC_AT_BGO<400 && TDC_AT_B>300 && TDC_AT_B<400 && TDC_Beam0>750 && TDC_Beam0<1000 && ADC_AT_B_T<1800 && ADC_AT_B_B<1800 && ADC_AT_B_T>100 && ADC_AT_B_B>100 && TDC_AT_ND>1600 && abs(ADC_AT_B_T-ADC_AT_B_B)<350 && ( (TDC_BGO_L_F>778 && TDC_BGO_L_F<815 && 4.32*(ADC_BGO_L_F-60) >1500 && 4.32*(ADC_BGO_L_F-60) <2000) || (TDC_BGO_L_B>771 && TDC_BGO_L_B<805 && 3.78307*(ADC_BGO_L_B-59) >1500 && 3.78307*(ADC_BGO_L_B-59) <2000) )");
+    npdg->Draw("0.15*sqrt((ADC_AT_B_T-64)*(ADC_AT_B_B-62))>>hBcoin2(60,0,300)", "TDC_AT_BGO>300 && TDC_AT_BGO<400 && TDC_AT_B>300 && TDC_AT_B<400 && TDC_Beam0>750 && TDC_Beam0<1000 && ADC_AT_B_T<1800 && ADC_AT_B_B<1800 && ADC_AT_B_T>100 && ADC_AT_B_B>100 && TDC_AT_ND>1600 && abs(ADC_AT_B_T-ADC_AT_B_B)<350 && ( (TDC_BGO_L_F>778 && TDC_BGO_L_F<815 && 4.32*(ADC_BGO_L_F-60) >2000 && 4.32*(ADC_BGO_L_F-60) <2500) || (TDC_BGO_L_B>771 && TDC_BGO_L_B<805 && 3.78307*(ADC_BGO_L_B-59) >2000 && 3.78307*(ADC_BGO_L_B-59) <2500) )");
+    npdg->Draw("0.15*sqrt((ADC_AT_B_T-64)*(ADC_AT_B_B-62))>>hBcoin3(60,0,300)", "TDC_AT_BGO>300 && TDC_AT_BGO<400 && TDC_AT_B>300 && TDC_AT_B<400 && TDC_Beam0>750 && TDC_Beam0<1000 && ADC_AT_B_T<1800 && ADC_AT_B_B<1800 && ADC_AT_B_T>100 && ADC_AT_B_B>100 && TDC_AT_ND>1600 && abs(ADC_AT_B_T-ADC_AT_B_B)<350 && ( (TDC_BGO_L_F>778 && TDC_BGO_L_F<815 && 4.32*(ADC_BGO_L_F-60) >2500 && 4.32*(ADC_BGO_L_F-60) <3000) || (TDC_BGO_L_B>771 && TDC_BGO_L_B<805 && 3.78307*(ADC_BGO_L_B-59) >2500 && 3.78307*(ADC_BGO_L_B-59) <3000) )");
+    npdg->Draw("0.15*sqrt((ADC_AT_B_T-64)*(ADC_AT_B_B-62))>>hBcoin4(60,0,300)", "TDC_AT_BGO>300 && TDC_AT_BGO<400 && TDC_AT_B>300 && TDC_AT_B<400 && TDC_Beam0>750 && TDC_Beam0<1000 && ADC_AT_B_T<1800 && ADC_AT_B_B<1800 && ADC_AT_B_T>100 && ADC_AT_B_B>100 && TDC_AT_ND>1600 && abs(ADC_AT_B_T-ADC_AT_B_B)<350 && ( (TDC_BGO_L_F>778 && TDC_BGO_L_F<815 && 4.32*(ADC_BGO_L_F-60) >3000 && 4.32*(ADC_BGO_L_F-60) <3500) || (TDC_BGO_L_B>771 && TDC_BGO_L_B<805 && 3.78307*(ADC_BGO_L_B-59) >3000 && 3.78307*(ADC_BGO_L_B-59) <3500) )");
+
+    // BG
+    npdg->Draw("0.15*sqrt((ADC_AT_B_T-64)*(ADC_AT_B_B-62))>>hBcoin1bg(60,0,300)", "TDC_AT_BGO>300 && TDC_AT_BGO<400 && TDC_AT_B>300 && TDC_AT_B<400 && TDC_Beam0>1000 && TDC_Beam0<1250 && ADC_AT_B_T<1800 && ADC_AT_B_B<1800 && ADC_AT_B_T>100 && ADC_AT_B_B>100 && TDC_AT_ND>1600 && abs(ADC_AT_B_T-ADC_AT_B_B)<350 && ( (TDC_BGO_L_F>778 && TDC_BGO_L_F<815 && 4.32*(ADC_BGO_L_F-60) >1500 && 4.32*(ADC_BGO_L_F-60) <2000) || (TDC_BGO_L_B>771 && TDC_BGO_L_B<805 && 3.78307*(ADC_BGO_L_B-59) >1500 && 3.78307*(ADC_BGO_L_B-59) <2000) )");
+    npdg->Draw("0.15*sqrt((ADC_AT_B_T-64)*(ADC_AT_B_B-62))>>hBcoin2bg(60,0,300)", "TDC_AT_BGO>300 && TDC_AT_BGO<400 && TDC_AT_B>300 && TDC_AT_B<400 && TDC_Beam0>1000 && TDC_Beam0<1250 && ADC_AT_B_T<1800 && ADC_AT_B_B<1800 && ADC_AT_B_T>100 && ADC_AT_B_B>100 && TDC_AT_ND>1600 && abs(ADC_AT_B_T-ADC_AT_B_B)<350 && ( (TDC_BGO_L_F>778 && TDC_BGO_L_F<815 && 4.32*(ADC_BGO_L_F-60) >2000 && 4.32*(ADC_BGO_L_F-60) <2500) || (TDC_BGO_L_B>771 && TDC_BGO_L_B<805 && 3.78307*(ADC_BGO_L_B-59) >2000 && 3.78307*(ADC_BGO_L_B-59) <2500) )");
+    npdg->Draw("0.15*sqrt((ADC_AT_B_T-64)*(ADC_AT_B_B-62))>>hBcoin3bg(60,0,300)", "TDC_AT_BGO>300 && TDC_AT_BGO<400 && TDC_AT_B>300 && TDC_AT_B<400 && TDC_Beam0>1000 && TDC_Beam0<1250 && ADC_AT_B_T<1800 && ADC_AT_B_B<1800 && ADC_AT_B_T>100 && ADC_AT_B_B>100 && TDC_AT_ND>1600 && abs(ADC_AT_B_T-ADC_AT_B_B)<350 && ( (TDC_BGO_L_F>778 && TDC_BGO_L_F<815 && 4.32*(ADC_BGO_L_F-60) >2500 && 4.32*(ADC_BGO_L_F-60) <3000) || (TDC_BGO_L_B>771 && TDC_BGO_L_B<805 && 3.78307*(ADC_BGO_L_B-59) >2500 && 3.78307*(ADC_BGO_L_B-59) <3000) )");
+    npdg->Draw("0.15*sqrt((ADC_AT_B_T-64)*(ADC_AT_B_B-62))>>hBcoin4bg(60,0,300)", "TDC_AT_BGO>300 && TDC_AT_BGO<400 && TDC_AT_B>300 && TDC_AT_B<400 && TDC_Beam0>1000 && TDC_Beam0<1250 && ADC_AT_B_T<1800 && ADC_AT_B_B<1800 && ADC_AT_B_T>100 && ADC_AT_B_B>100 && TDC_AT_ND>1600 && abs(ADC_AT_B_T-ADC_AT_B_B)<350 && ( (TDC_BGO_L_F>778 && TDC_BGO_L_F<815 && 4.32*(ADC_BGO_L_F-60) >3000 && 4.32*(ADC_BGO_L_F-60) <3500) || (TDC_BGO_L_B>771 && TDC_BGO_L_B<805 && 3.78307*(ADC_BGO_L_B-59) >3000 && 3.78307*(ADC_BGO_L_B-59) <3500) )");
+
+
+    // BG substraction
+    hBcoin1->Add(hBcoin1bg,-1);
+    hBcoin2->Add(hBcoin2bg,-1);
+    hBcoin3->Add(hBcoin3bg,-1);
+    hBcoin4->Add(hBcoin4bg,-1);
+
+    hBcoin->SetLineColor(kBlack);
+    hBcoin1->SetLineColor(kRed);
+    hBcoin2->SetLineColor(kBlue);
+    hBcoin3->SetLineColor(kMagenta);
+    hBcoin4->SetLineColor(kGreen);
+
+    c1->Clear();
+    c1->Divide(2,2,0.01,0.01);
+    c1->cd(1);
+    hBcoin1->Draw();
+    c1->cd(2);
+    hBcoin2->Draw();
+    c1->cd(3);
+    hBcoin3->Draw();
+    c1->cd(4);
+    hBcoin4->Draw();
+/*
+
+
+
+    c1->Clear();
+
+
+    TCanvas* c2= new TCanvas();
+
+    c2->Divide(2,2,0.01,0.01);
+    c2->cd(1);
+    hBcoin1bg->Draw();
+    c2->cd(2);
+    hBcoin2bg->Draw();
+    c2->cd(3);
+    hBcoin3bg->Draw();
+    c2->cd(4);
+    hBcoin4bg->Draw();
+*/
+
+/*
+
+
+
+    // AT Response pAT cut
+    // +TDC-pAT
+    // +TDC-AT
+    // +TDC-Beam0-neutron
+    // +ADC-non-overflow
+    // +ADC-non-zero
+    //npdg->Draw("0.14*sqrt((ADC_AT_B_T-65)*(ADC_AT_B_B-77))>>hpA(60,0,300)", "TDC_PAT>300 && TDC_PAT<400 && TDC_AT_A>700 && TDC_AT_A<800 && TDC_Beam0>750 && TDC_Beam0<1000 && ADC_AT_A_T<1900 && ADC_AT_A_B<1900 && ADC_AT_A_T>10 && ADC_AT_A_B>10");
+    npdg->Draw("0.15*sqrt((ADC_AT_B_T-64)*(ADC_AT_B_B-62))>>hpB(60,0,300)", "TDC_PAT>300 && TDC_PAT<400 && TDC_AT_B>700 && TDC_AT_B<800 && TDC_Beam0>750 && TDC_Beam0<1000 && ADC_AT_B_T<1800 && ADC_AT_B_B<1800 && ADC_AT_B_T>100 && ADC_AT_B_B>100");
+
+
+    // BGO Response pBGO cut
+    // +TDC-pBGO
+    // +TDC-BGO
+    // +TDC-Beam0-neutron
+    // +ADC-non-overflow
+    // +ADC-non-zero
+
+    npdg->Draw("4.32*(ADC_BGO_L_F-60)>>hpLF(100,1000,10000)", "TDC_PBGO>300 && TDC_PBGO<400 && TDC_BGO_L_F>1100 && TDC_BGO_L_F<1300 && TDC_Beam0>750 && TDC_Beam0<1000 && ADC_BGO_L_F<1900 && ADC_BGO_L_F>100");
+    npdg->Draw("3.783*(ADC_BGO_L_B-59)>>hpLB(100,1000,10000)", "TDC_PBGO>300 && TDC_PBGO<400 && TDC_BGO_L_B>1100 && TDC_BGO_L_B<1300 && TDC_Beam0>750 && TDC_Beam0<1000 && ADC_BGO_L_B<1900 && ADC_BGO_L_B>100");
+    npdg->Draw("3.2722*(ADC_BGO_M-50)>>hpM(100,1000,10000)", "TDC_PBGO>300 && TDC_PBGO<400 && TDC_BGO_M>1100 && TDC_BGO_M<1300 && TDC_Beam0>750 && TDC_Beam0<1000 && ADC_BGO_M<1900 && ADC_BGO_M>100");
+    TH1F *hpBGO = (TH1F*)hpLF->Clone("hpBGO");
+    hpBGO->Add(hpLB);
+    hpBGO->Add(hpM);
+    hpBGO->SetLineColor(kRed);
+
+
+
+
+    // BGO Response coin cut
+    // +TDC-AT-BGO
+    // +TDC-BGO
+    // +TDC-AT
+    // +TDC-Beam0-neutron
+    // +ADC-non-overflow
+    // +ADC-non-zero
+    // +ATResp-cut
+    // ++TDC-not-AT-ND
+    // ++AT-Band-Cut
+//   AT-A
+    npdg->Draw("4.32*(ADC_BGO_L_F-60)>>hAcLF(100,1000,10000)", "TDC_AT_BGO>300 && TDC_AT_BGO<400 && TDC_BGO_L_F>700 && TDC_BGO_L_F<1000 && TDC_AT_B>300 && TDC_AT_B<400 && TDC_Beam0>750 && TDC_Beam0<1000 && ADC_AT_A_T<1900 && ADC_AT_A_B<1900 && ADC_AT_A_T>100 && ADC_AT_A_B>100 && ADC_BGO_L_F<1900 && ADC_BGO_L_F>10 && 0.14*sqrt((ADC_AT_A_T-65)*(ADC_AT_A_B-77))>80 && 0.14*sqrt((ADC_AT_A_T-65)*(ADC_AT_A_B-77))<140  && TDC_AT_ND>1600 && abs(ADC_AT_A_T-ADC_AT_A_B)<350");
+    npdg->Draw("3.783*(ADC_BGO_L_B-59)>>hAcLB(100,1000,10000)", "TDC_AT_BGO>300 && TDC_AT_BGO<400 && TDC_BGO_L_B>700 && TDC_BGO_L_B<1000 && TDC_AT_B>300 && TDC_AT_B<400 && TDC_Beam0>750 && TDC_Beam0<1000 && ADC_AT_A_T<1900 && ADC_AT_A_B<1900 && ADC_AT_A_T>100 && ADC_AT_A_B>100 && ADC_BGO_L_B<1900 && ADC_BGO_L_B>10 && 0.14*sqrt((ADC_AT_A_T-65)*(ADC_AT_A_B-77))>80 && 0.14*sqrt((ADC_AT_A_T-65)*(ADC_AT_A_B-77))<140 && TDC_AT_ND>1600 && abs(ADC_AT_A_T-ADC_AT_A_B)<350");
+    npdg->Draw("3.2722*(ADC_BGO_M-50)>>hAcM(100,1000,10000)", "TDC_AT_BGO>300 && TDC_AT_BGO<400 && TDC_BGO_M>700 && TDC_BGO_M<1000 && TDC_AT_B>300 && TDC_AT_B<400 && TDC_Beam0>750 && TDC_Beam0<1000 && ADC_AT_A_T<1900 && ADC_AT_A_B<1900 && ADC_AT_A_T>100 && ADC_AT_A_B>100 && ADC_BGO_M<1900 && ADC_BGO_M>10 && 0.14*sqrt((ADC_AT_A_T-65)*(ADC_AT_A_B-77))>80 && 0.14*sqrt((ADC_AT_A_T-65)*(ADC_AT_A_B-77))<140 && TDC_AT_ND>1600 && abs(ADC_AT_A_T-ADC_AT_A_B)<350");
+    TH1F *hAcBGO = (TH1F*)hAcLF->Clone("hAcBGO");
+    hAcBGO->Add(hAcLB);
+    hAcBGO->Add(hAcM);
+
+//   AT-B
+    npdg->Draw("4.32*(ADC_BGO_L_F-60)>>hBcLF(100,1000,10000)", "TDC_AT_BGO>300 && TDC_AT_BGO<400 && TDC_BGO_L_F>700 && TDC_BGO_L_F<1000 && TDC_AT_B>300 && TDC_AT_B<400 && TDC_Beam0>750 && TDC_Beam0<1000 && ADC_AT_B_T<1800 && ADC_AT_B_B<1800 && ADC_AT_B_T>100 && ADC_AT_B_B>100 && ADC_BGO_L_F<1900 && ADC_BGO_L_F>10 && 0.15*sqrt((ADC_AT_B_T-64)*(ADC_AT_B_B-62))>80 && 0.15*sqrt((ADC_AT_B_T-64)*(ADC_AT_B_B-62))<150  && TDC_AT_ND>1600 && abs(ADC_AT_B_T-ADC_AT_B_B)<350");
+    npdg->Draw("3.783*(ADC_BGO_L_B-59)>>hBcLB(100,1000,10000)", "TDC_AT_BGO>300 && TDC_AT_BGO<400 && TDC_BGO_L_B>700 && TDC_BGO_L_B<1000 && TDC_AT_B>300 && TDC_AT_B<400 && TDC_Beam0>750 && TDC_Beam0<1000 && ADC_AT_B_T<1800 && ADC_AT_B_B<1800 && ADC_AT_B_T>100 && ADC_AT_B_B>100 && ADC_BGO_L_B<1900 && ADC_BGO_L_B>10 && 0.15*sqrt((ADC_AT_B_T-64)*(ADC_AT_B_B-62))>80 && 0.15*sqrt((ADC_AT_B_T-64)*(ADC_AT_B_B-62))<150 && TDC_AT_ND>1600 && abs(ADC_AT_B_T-ADC_AT_B_B)<350");
+    npdg->Draw("3.2722*(ADC_BGO_M-50)>>hBcM(100,1000,10000)", "TDC_AT_BGO>300 && TDC_AT_BGO<400 && TDC_BGO_M>700 && TDC_BGO_M<1000 && TDC_AT_B>300 && TDC_AT_B<400 && TDC_Beam0>750 && TDC_Beam0<1000 && ADC_AT_B_T<1800 && ADC_AT_B_B<1800 && ADC_AT_B_T>100 && ADC_AT_B_B>100 && ADC_BGO_M<1900 && ADC_BGO_M>10 && 0.15*sqrt((ADC_AT_B_T-64)*(ADC_AT_B_B-62))>80 && 0.15*sqrt((ADC_AT_B_T-64)*(ADC_AT_B_B-62))<150 && TDC_AT_ND>1600 && abs(ADC_AT_B_T-ADC_AT_B_B)<350");
+    TH1F *hBcBGO = (TH1F*)hBcLF->Clone("hBcBGO");
+    hBcBGO->Add(hBcLB);
+    hBcBGO->Add(hBcM);
+
+    hpBGO->Scale( 0.01 );
+    TH1F *hBcBGOnobg=(TH1F*)hBcBGO->Clone("hBcBGOnobg");
+    hBcBGOnobg->Add(hpBGO,-1);
+    //hBcBGO->Draw();
+
+    hpBGO->Draw();
+    hpBGO->SetTitle("E_BGO | pBGO ");
+*/ //temp delete TODO
+
+
+}

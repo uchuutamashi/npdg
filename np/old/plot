@@ -1,0 +1,24 @@
+{
+  //AT-A keVee conversion = 10
+  //AT-B keVee conversion = 5.73
+
+  // Plot beam TOF
+  // +coin
+  // +AT
+  // +Kinematics
+  // +BGO TOF
+
+  npdg->Draw("TDC_Beam0>>tST(200,0,1000)", coin+nA+EA0+EST0+TOF_ST);
+  npdg->Draw("TDC_Beam0>>tSB(200,0,1000)", coin+nA+EA0+ESB0+TOF_SB);
+  npdg->Draw("TDC_Beam0>>tM(200,0,1000)", coin+nA+EA0+EM0+TOF_M);
+  npdg->Draw("TDC_Beam0>>tLF(200,0,1000)", coin+nA+EA0+ELF0+TOF_LF);
+  npdg->Draw("TDC_Beam0>>tLB(200,0,1000)", coin+nA+EA0+ELB0+TOF_LB);
+
+  TH1F* tof = (TH1F*) tST->Clone("tof");
+  tof->Add(tSB);
+  tof->Add(tM);
+  tof->Add(tLF);
+  tof->Add(tLB);
+
+  tof->Draw();
+}

@@ -1,0 +1,60 @@
+{
+    gStyle->SetOptStat(0);
+    TFile *tf1=  TFile::Open("Jun15/C.root");
+    TBox *b1= new TBox();
+
+    int verbose=1;
+    int plotA=1;
+    int plotB=1;
+    //int bg=1;
+
+    //=================
+    //Definitions
+    //=================
+
+    TString pATA = "(TDC_PAT>300 && TDC_PAT<400) && (TDC_AT_A>700 && TDC_AT_A<800)";
+    TString pATB = "(TDC_PAT>300 && TDC_PAT<400) && (TDC_AT_B>700 && TDC_AT_B<800)";
+
+    TString pST = "(TDC_PBGO>300 && TDC_PBGO<400) && (TDC_BGO_S_T>1200 && TDC_BGO_S_T<1300)";
+    TString pSB = "(TDC_PBGO>300 && TDC_PBGO<400) && (TDC_BGO_S_B>1200 && TDC_BGO_S_B<1300)";
+    TString pM = "(TDC_PBGO>300 && TDC_PBGO<400) && (TDC_BGO_M>1200 && TDC_BGO_M<1300)";
+    TString pLF = "(TDC_PBGO>300 && TDC_PBGO<400) && (TDC_BGO_L_F>1150 && TDC_BGO_L_F<1250)";
+    TString pLB = "(TDC_PBGO>300 && TDC_PBGO<400) && (TDC_BGO_L_B>1100 && TDC_BGO_L_B<1200)";
+
+    TString E_A = "0.14*sqrt((ADC_AT_A_T-65)*(ADC_AT_A_B-77))";
+    TString E_B = "0.15*sqrt((ADC_AT_B_T-64)*(ADC_AT_B_B-62))";
+
+    TString E_ST = "(3.8199*(ADC_BGO_S_T-78))";
+    TString E_SB = "(3.4566*(ADC_BGO_S_B-67))";
+    TString E_M = "(3.27217*(ADC_BGO_M-50))";
+    TString E_LF = "(4.32*(ADC_BGO_L_F-60))";
+    TString E_LB = "(3.78307*(ADC_BGO_L_B-59))";
+
+    TString nA = "&& (ADC_AT_A_T>100 && ADC_AT_A_B>100 && abs(ADC_AT_A_T-ADC_AT_A_B)<350) && ADC_AT_A_T<1900 && ADC_AT_A_B<1900";
+    TString nB = "&& (ADC_AT_B_T>100 && ADC_AT_B_B>100 && abs(ADC_AT_B_T-ADC_AT_B_B)<350) && ADC_AT_B_T<1900 && ADC_AT_B_B<1900";
+if(!bg){
+    TString beamA= "&& (TDC_Beam0>924 && TDC_Beam0<978)";
+    TString beamB= "&& (TDC_Beam0>893 && TDC_Beam0<930)";
+}else{
+    TString beamA= "&& (TDC_Beam0>1024 && TDC_Beam0<1078)";
+    TString beamB= "&& (TDC_Beam0>993 && TDC_Beam0<1030)";
+}
+
+    //=================
+    //Inputs
+    //=================
+
+    int x1,x2,y1,y2;
+    cout << "Energy Range (x1 x2 y1 y2) (x:BGO, y:AT)" << endl;
+    cin >> x1 >> x2 >> y1 >> y2;
+
+    npdg->Draw("TDC_AT_A>>hA", pATA+nA+beamA+"&& ( "+E_A+" > "+TString::Itoa(y1,10)+" && "+E_A+" < "+TString::Itoa(y2,10)+" )");
+    cout << "Prescaled AT-A yield = " << hA->Integral()<<endl;
+
+
+    npdg->Draw("TDC_BGO_L_F>>hLF", pLF+beamA+"&& ( "+E_LF+" > "+TString::Itoa(x1,10)+" && "+E_LF+" < "+TString::Itoa(x2,10)+" )");
+    cout << "Prescaled BGO-LF yield = " << hLF->Integral()<<endl;
+
+    cout << "Estimated Accidental Counts = " << (hA->Integral() * hLF->Integral())*300*300 / 6750000000 << endl; 
+
+}

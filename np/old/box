@@ -1,0 +1,7 @@
+{
+TBox *b1 = new TBox(2400,10,2700,50);
+b1->SetFillStyle(0);
+b1->SetLineColor(1);
+b1->SetLineWidth(2);
+b1->Draw();
+}

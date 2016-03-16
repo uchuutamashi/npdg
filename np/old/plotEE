@@ -1,0 +1,42 @@
+{
+
+//import root file & cut settings
+gROOT->ProcessLine(".x np/plotcfg");
+
+//build string specifying cut
+std::ostringstream oss;
+
+//AT A cut
+//oss << "( sqrt(ADC_AT_A_T*ADC_AT_A_B) >" << ADC_A_min << " && sqrt(ADC_AT_A_T*ADC_AT_A_B) <" << ADC_A_max <<") &&";
+//oss << "(TDC_AT_A>" << TDC_A_min << " && TDC_AT_A <" << TDC_A_max <<") &&";
+
+//TOF cuts
+//oss << "(TDC_AT_B>" << 220 << " && TDC_AT_B <" << 320 <<") ";
+
+//BGO cuts
+//oss << "(TDC_BGO_L_L> "<<TDC_LL_min<<" && TDC_BGO_L_L < "<<TDC_LL_max<<")";
+//oss << "(TDC_BGO_L_R> "<<TDC_LR_min<<" && TDC_BGO_L_R < "<<TDC_LR_max<<")";
+//oss << "(TDC_BGO_M> "<<TDC_M_min<<" && TDC_BGO_M < "<<TDC_M_max<<")";
+//oss << "(TDC_BGO_S_L> "<<TDC_SL_min<<" && TDC_BGO_S_L < "<<TDC_SL_max<<") ";
+//oss << "(TDC_BGO_S_R> "<<TDC_SR_min<<" && TDC_BGO_S_R < "<<TDC_SR_max<<")";
+
+cout << "Cut applied: " << oss.str() << endl;
+
+
+npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_B_T-63)*(ADC_AT_B_B-62))):(3.8199*(ADC_BGO_S_T-78))>>hBST(20,1000,3000,20,20,120)","TDC_AT_B>300&&TDC_AT_B<350 && TDC_BGO_S_T>700 && TDC_BGO_S_T<1000 && TDC_AT_BGO>300 && TDC_AT_BGO<350");
+npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_B_T-63)*(ADC_AT_B_B-62))):(3.27217*(ADC_BGO_S_B-67))>>hBSB(20,1000,3000,20,20,120)","TDC_AT_B>300&&TDC_AT_B<350 && TDC_BGO_S_B>700 && TDC_BGO_S_B<1000&& TDC_AT_BGO>300 && TDC_AT_BGO<350");
+npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_B_T-63)*(ADC_AT_B_B-62))):(3.27217*(ADC_BGO_M-50))>>hBM(20,1000,3000,20,20,120)","TDC_AT_B>300&&TDC_AT_B<350 && TDC_BGO_M>700 && TDC_BGO_M<1000&& TDC_AT_BGO>300 && TDC_AT_BGO<350");
+npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_B_T-63)*(ADC_AT_B_B-62))):(4.4728*(ADC_BGO_L_F-60))>>hBLF(20,1000,3000,20,20,120)","TDC_AT_B>300&&TDC_AT_B<350 && TDC_BGO_L_F>700 && TDC_BGO_L_F<1000&& TDC_AT_BGO>300 && TDC_AT_BGO<350");
+npdg->Draw("(sqrt(0.1449*0.1583*(ADC_AT_B_T-63)*(ADC_AT_B_B-62))):(3.78307*(ADC_BGO_L_B-59))>>hBLB(20,1000,3000,20,20,120)","TDC_AT_B>300&&TDC_AT_B<350 && TDC_BGO_L_B>700 && TDC_BGO_L_B<1000&& TDC_AT_BGO>300 && TDC_AT_BGO<35");
+
+
+hBSB->Add(hBST);
+hBM->Add(hBSB);
+hBLF->Add(hBM);
+hBLB->Add(hBLF);
+
+hBLB->Draw("colz");
+hBLB->SetTitle("E_{AT}:E_{BGO}");
+c1->SetLogz(1);
+
+}

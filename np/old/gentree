@@ -1,0 +1,14 @@
+{
+
+gROOT->ProcessLine(".L np/evnt2tree.cxx");
+
+Char_t* ddir = "working";
+
+evnt2tree(ddir, false);
+
+TString tsdir = ddir;
+
+tsdir.Append("/events.root"); // true to overwrite, false to append
+TFile* tfile = new TFile(tsdir);
+
+}

@@ -1,0 +1,24 @@
+{
+
+
+  TFile *f1 = TFile::Open("Jun15/72_BG.root");
+
+  //npdg->Draw("(ADC_AT_A_T-72)*0.2:(ADC_AT_A_B-63)*0.163>>htemp(100,0,100,100,0,100)");
+  //TH2F *h1 = (TH2F*)gDirectory->Get("htemp");
+
+  npdg->Draw("0.5*((ADC_AT_A_T-72)*0.2+(ADC_AT_A_B-63)*0.163)>>htemp(50,0,100)");
+  TH1F *h1 = (TH1F*)gDirectory->Get("htemp");
+
+  TFile *f2 = TFile::Open("Jun15/74_Am.root");
+
+  //npdg->Draw("(ADC_AT_A_T-72)*0.2:(ADC_AT_A_B-63)*0.163>>htemp(100,0,100,100,0,100)");
+  //TH2F *h2 = (TH2F*)gDirectory->Get("htemp");
+
+  npdg->Draw("0.5*((ADC_AT_A_T-72)*0.2+(ADC_AT_A_B-63)*0.163)>>htemp(50,0,100)");
+  TH1F *h2 = (TH1F*)gDirectory->Get("htemp");
+
+  h1.Scale(75.86);
+  h2->Add(h1,-1);
+
+  h2->Draw();
+}

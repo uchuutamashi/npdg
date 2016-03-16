@@ -1,0 +1,14 @@
+{
+
+   Double_t par[9];
+   TF1 *g1    = new TF1("g1","gaus",80,30);
+   TF1 *g2    = new TF1("g2","gaus",400,800);
+   TF1 *total = new TF1("total","gaus(0)+gaus(3)",80,800);
+   total->SetLineColor(2);
+   h->Fit(g1,"R");
+   h->Fit(g2,"R");
+   g1->GetParameters(&par[0]);
+   g2->GetParameters(&par[3]);
+   total->SetParameters(par);
+   h->Fit(total,"R+");
+}

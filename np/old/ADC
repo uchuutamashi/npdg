@@ -1,0 +1,108 @@
+{
+    gStyle->SetOptStat(0);
+    TFile *tf1=  TFile::Open("Jun15/C.root");
+    TBox *b1= new TBox();
+
+    int verbose=1;
+    int plotA=1;
+    int plotB=1;
+    //int bg=1;
+
+    //=================
+    //Definitions
+    //=================
+
+    TString coin = "(TDC_AT_BGO>300 && TDC_AT_BGO<400)";
+    TString E_A = "0.14*sqrt((ADC_AT_A_T-65)*(ADC_AT_A_B-77))";
+    TString E_B = "0.15*sqrt((ADC_AT_B_T-64)*(ADC_AT_B_B-62))";
+
+    TString E_ST = "(3.8199*(ADC_BGO_S_T-78))";
+    TString E_SB = "(3.4566*(ADC_BGO_S_B-67))";
+    TString E_M = "(3.27217*(ADC_BGO_M-50))";
+    TString E_LF = "(4.32*(ADC_BGO_L_F-60))";
+    TString E_LB = "(3.78307*(ADC_BGO_L_B-59))";
+
+    TString nA = "&& (ADC_AT_A_T>100 && ADC_AT_A_B>100 && abs(ADC_AT_A_T-ADC_AT_A_B)<350) && ADC_AT_A_T<1900 && ADC_AT_A_B<1900";
+    TString nB = "&& (ADC_AT_B_T>100 && ADC_AT_B_B>100 && abs(ADC_AT_B_T-ADC_AT_B_B)<350) && ADC_AT_B_T<1900 && ADC_AT_B_B<1900";
+if(!bg){
+    TString nAcST= nA + "&& (TDC_Beam0>503 && TDC_Beam0<563) && (TDC_BGO_S_T>785 && TDC_BGO_S_T<825)";
+    TString nAcSB= nA + "&& (TDC_Beam0>521 && TDC_Beam0<549) && (TDC_BGO_S_B>767 && TDC_BGO_S_B<789)";
+    TString nAcM= nA + "&& (TDC_Beam0>518 && TDC_Beam0<551) && (TDC_BGO_M>763 && TDC_BGO_M<808)";
+    TString nAcLF= nA + "&& (TDC_Beam0>513 && TDC_Beam0<554) && (TDC_BGO_L_F>803 && TDC_BGO_L_F<830)";
+    TString nAcLB= nA + "&& (TDC_Beam0>513 && TDC_Beam0<554) && (TDC_BGO_L_B>795 && TDC_BGO_L_B<817)";
+
+    TString nBcST= nB + "&& (TDC_Beam0>472 && TDC_Beam0<519) && (TDC_BGO_S_T>765 && TDC_BGO_S_T<812)";
+    TString nBcSB= nB + "&& (TDC_Beam0>475 && TDC_Beam0<513) && (TDC_BGO_S_B>737 && TDC_BGO_S_B<777)";
+    TString nBcM= nB + "&& (TDC_Beam0>472 && TDC_Beam0<523) && (TDC_BGO_M>737 && TDC_BGO_M<787)";
+    TString nBcLF= nB + "&& (TDC_Beam0>469 && TDC_Beam0<523) && (TDC_BGO_L_F>778 && TDC_BGO_L_F<815)";
+    TString nBcLB= nB + "&& (TDC_Beam0>472 && TDC_Beam0<529) && (TDC_BGO_L_B>771 && TDC_BGO_L_B<805)";
+}else{
+    TString nAcST= nA + "&& (TDC_Beam0>603 && TDC_Beam0<663) && (TDC_BGO_S_T>785 && TDC_BGO_S_T<825)";
+    TString nAcSB= nA + "&& (TDC_Beam0>621 && TDC_Beam0<649) && (TDC_BGO_S_B>767 && TDC_BGO_S_B<789)";
+    TString nAcM= nA + "&& (TDC_Beam0>618 && TDC_Beam0<651) && (TDC_BGO_M>763 && TDC_BGO_M<808)";
+    TString nAcLF= nA + "&& (TDC_Beam0>613 && TDC_Beam0<654) && (TDC_BGO_L_F>803 && TDC_BGO_L_F<830)";
+    TString nAcLB= nA + "&& (TDC_Beam0>613 && TDC_Beam0<654) && (TDC_BGO_L_B>795 && TDC_BGO_L_B<817)";
+
+    TString nBcST= nB + "&& (TDC_Beam0>572 && TDC_Beam0<619) && (TDC_BGO_S_T>765 && TDC_BGO_S_T<812)";
+    TString nBcSB= nB + "&& (TDC_Beam0>575 && TDC_Beam0<613) && (TDC_BGO_S_B>737 && TDC_BGO_S_B<777)";
+    TString nBcM= nB + "&& (TDC_Beam0>572 && TDC_Beam0<623) && (TDC_BGO_M>737 && TDC_BGO_M<787)";
+    TString nBcLF= nB + "&& (TDC_Beam0>569 && TDC_Beam0<623) && (TDC_BGO_L_F>778 && TDC_BGO_L_F<815)";
+    TString nBcLB= nB + "&& (TDC_Beam0>572 && TDC_Beam0<629) && (TDC_BGO_L_B>771 && TDC_BGO_L_B<805)";
+}
+if(plotA){
+    //=================
+    //AT A coincidences
+    //=================
+
+    if(verbose) cout<< "Plotting AT_A:BGO histograms..."<< endl;
+
+    npdg->Draw(E_A+":"+E_ST+">>hAcST(100,0,10000,60,0,300)",coin+nAcST);
+    npdg->Draw(E_A+":"+E_SB+">>hAcSB(100,0,10000,60,0,300)",coin+nAcSB);
+    npdg->Draw(E_A+":"+E_M+">>hAcM(100,0,10000,60,0,300)",coin+nAcM);
+    npdg->Draw(E_A+":"+E_LF+">>hAcLF(100,0,10000,60,0,300)",coin+nAcLF);
+    npdg->Draw(E_A+":"+E_LB+">>hAcLB(100,0,10000,60,0,300)",coin+nAcLB);
+
+
+    TH2F* hAcoin = (TH2F*) hAcST->Clone("hAcoin");
+    hAcoin->Add(hAcSB);
+    hAcoin->Add(hAcM);
+    hAcoin->Add(hAcLF);
+    hAcoin->Add(hAcLB);
+
+}
+if(plotB){
+    //=================
+    //AT B coincidences
+    //=================
+
+    if(verbose) cout<< "Plotting AT_B:BGO histograms..."<< endl;
+
+    npdg->Draw(E_B+":"+E_ST+">>hBcST(100,0,10000,60,0,300)",coin+nBcST);
+    npdg->Draw(E_B+":"+E_SB+">>hBcSB(100,0,10000,60,0,300)",coin+nBcSB);
+    npdg->Draw(E_B+":"+E_M+">>hBcM(100,0,10000,60,0,300)",coin+nBcM);
+    npdg->Draw(E_B+":"+E_LF+">>hBcLF(100,0,10000,60,0,300)",coin+nBcLF);
+    npdg->Draw(E_B+":"+E_LB+">>hBcLB(100,0,10000,60,0,300)",coin+nBcLB);
+
+
+    TH2F* hBcoin = (TH2F*) hBcST->Clone("hBcoin");
+    hBcoin->Add(hBcSB);
+    hBcoin->Add(hBcM);
+    hBcoin->Add(hBcLF);
+    hBcoin->Add(hBcLB);
+}
+
+    //=================
+    //Display
+    //=================
+
+    if(plotA){
+      hAcoin->SetTitle("AT A");
+      hAcoin->Draw("colz");
+    }
+    if(plotB){
+      hBcoin->SetTitle("AT B");
+      if(plotA) TCanvas* c2 = new TCanvas();
+      hBcoin->Draw("colz");
+    }
+
+}

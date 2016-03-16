@@ -1,0 +1,266 @@
+{
+    gStyle->SetOptStat(0);
+    TFile *tf1=  TFile::Open("Jun15/C.root");
+
+    int verbose=1;
+    int plotA=1;
+    int plotB=1;
+
+    //=================
+    //Definitions
+    //=================
+
+    TString coin = "(TDC_AT_BGO>300 && TDC_AT_BGO<400)";
+    TString E_A = "0.14*sqrt((ADC_AT_A_T-65)*(ADC_AT_A_B-77))";
+    TString E_B = "0.15*sqrt((ADC_AT_B_T-64)*(ADC_AT_B_B-62))";
+
+    TString E_ST = "(3.8199*(ADC_BGO_S_T-78))";
+    TString E_SB = "(3.4566*(ADC_BGO_S_B-67))";
+    TString E_M = "(3.27217*(ADC_BGO_M-50))";
+    TString E_LF = "(4.32*(ADC_BGO_L_F-60))";
+    TString E_LB = "(3.78307*(ADC_BGO_L_B-59))";
+
+    TString nA = "&& ("+E_A+">30 &&"+E_A+"<140) && (ADC_AT_A_T>100 && ADC_AT_A_B>100 && abs(ADC_AT_A_T-ADC_AT_A_B)<350) && ADC_AT_A_T<2000 && ADC_AT_A_B<2000";
+    TString nB = "&& ("+E_B+">30 &&"+E_B+"<140) && (ADC_AT_B_T>100 && ADC_AT_B_B>100 && abs(ADC_AT_B_T-ADC_AT_B_B)<350) && ADC_AT_B_T<2000 && ADC_AT_B_B<2000";
+
+    TString nAcST= nA + "&& (TDC_Beam0>603 && TDC_Beam0<663)";
+    TString nAcSB= nA + "&& (TDC_Beam0>621 && TDC_Beam0<649)";
+    TString nAcM= nA + "&& (TDC_Beam0>618 && TDC_Beam0<651)";
+    TString nAcLF= nA + "&& (TDC_Beam0>613 && TDC_Beam0<654)";
+    TString nAcLB= nA + "&& (TDC_Beam0>613 && TDC_Beam0<654)";
+
+    TString nBcST= nB + "&& (TDC_Beam0>572 && TDC_Beam0<619)";
+    TString nBcSB= nB + "&& (TDC_Beam0>575 && TDC_Beam0<613)";
+    TString nBcM= nB + "&& (TDC_Beam0>572 && TDC_Beam0<623)";
+    TString nBcLF= nB + "&& (TDC_Beam0>569 && TDC_Beam0<623)";
+    TString nBcLB= nB + "&& (TDC_Beam0>572 && TDC_Beam0<629)";
+
+
+if(plotA){
+    //=================
+    //AT A coincidences
+    //=================
+
+    if(verbose) cout<< "Plotting AT_A histograms..."<< endl;
+
+    if(verbose) cout<< "Region 1...";
+
+    // Region 1
+    npdg->Draw("TDC_BGO_S_T>>hAcST1(1000,0,2000)",coin+nAcST+"&&"+E_ST+">2000 &&"+E_ST+"<2600");
+    npdg->Draw("TDC_BGO_S_B>>hAcSB1(1000,0,2000)",coin+nAcSB+"&&"+E_SB+">2000 &&"+E_SB+"<2600");
+    npdg->Draw("TDC_BGO_M>>hAcM1(1000,0,2000)",coin+nAcM+"&&"+E_M+">2000 &&"+E_M+"<2600");
+    npdg->Draw("TDC_BGO_L_F>>hAcLF1(1000,0,2000)",coin+nAcLF+"&&"+E_LF+">2000 &&"+E_LF+"<2600");
+    npdg->Draw("TDC_BGO_L_B>>hAcLB1(1000,0,2000)",coin+nAcLB+"&&"+E_LB+">2000 &&"+E_LB+"<2600");
+
+    /*
+    TH1F* hAcoin1 = (TH1F*) hAcST1->Clone("hAcoin1");
+    hAcoin1->Add(hAcSB1);
+    hAcoin1->Add(hAcM1);
+    hAcoin1->Add(hAcLF1);
+    hAcoin1->Add(hAcLB1);
+    */
+
+    TH1F* hAcoin1 = (TH1F*) hAcLF1->Clone("hAcoin1");
+
+    if(verbose) cout<< "done!"<< endl;
+    if(verbose) cout<< "Region 2...";
+
+    // Region 2
+    npdg->Draw("TDC_BGO_S_T>>hAcST2(1000,0,2000)",coin+nAcST+"&&"+E_ST+">2600 &&"+E_ST+"<3200");
+    npdg->Draw("TDC_BGO_S_B>>hAcSB2(1000,0,2000)",coin+nAcSB+"&&"+E_SB+">2600 &&"+E_SB+"<3200");
+    npdg->Draw("TDC_BGO_M>>hAcM2(1000,0,2000)",coin+nAcM+"&&"+E_M+">2600 &&"+E_M+"<3200");
+    npdg->Draw("TDC_BGO_L_F>>hAcLF2(1000,0,2000)",coin+nAcLF+"&&"+E_LF+">2600 &&"+E_LF+"<3200");
+    npdg->Draw("TDC_BGO_L_B>>hAcLB2(1000,0,2000)",coin+nAcLB+"&&"+E_LB+">2600 &&"+E_LB+"<3200");
+
+    /*
+    TH1F* hAcoin2 = (TH1F*) hAcST2->Clone("hAcoin2");
+    hAcoin2->Add(hAcSB2);
+    hAcoin2->Add(hAcM2);
+    hAcoin2->Add(hAcLF2);
+    hAcoin2->Add(hAcLB2);
+    */
+
+    TH1F* hAcoin2 = (TH1F*) hAcLF2->Clone("hAcoin2");
+
+    if(verbose) cout<< "done!"<< endl;
+    if(verbose) cout<< "Region 3...";
+
+    // Region 3
+    npdg->Draw("TDC_BGO_S_T>>hAcST3(1000,0,2000)",coin+nAcST+"&&"+E_ST+">3200 &&"+E_ST+"<3600");
+    npdg->Draw("TDC_BGO_S_B>>hAcSB3(1000,0,2000)",coin+nAcSB+"&&"+E_SB+">3200 &&"+E_SB+"<3600");
+    npdg->Draw("TDC_BGO_M>>hAcM3(1000,0,2000)",coin+nAcM+"&&"+E_M+">3200 &&"+E_M+"<3600");
+    npdg->Draw("TDC_BGO_L_F>>hAcLF3(1000,0,2000)",coin+nAcLF+"&&"+E_LF+">3200 &&"+E_LF+"<3600");
+    npdg->Draw("TDC_BGO_L_B>>hAcLB3(1000,0,2000)",coin+nAcLB+"&&"+E_LB+">3200 &&"+E_LB+"<3600");
+
+    /*
+    TH1F* hAcoin3 = (TH1F*) hAcST3->Clone("hAcoin3");
+    hAcoin3->Add(hAcSB3);
+    hAcoin3->Add(hAcM3);
+    hAcoin3->Add(hAcLF3);
+    hAcoin3->Add(hAcLB3);
+    */
+
+    TH1F* hAcoin3 = (TH1F*) hAcLF3->Clone("hAcoin3");
+
+    if(verbose) cout<< "done!"<< endl;
+    if(verbose) cout<< "Region 4...";
+
+    // Region 4
+    npdg->Draw("TDC_BGO_S_T>>hAcST4(1000,0,2000)",coin+nAcST+"&&"+E_ST+">3600 &&"+E_ST+"<4000");
+    npdg->Draw("TDC_BGO_S_B>>hAcSB4(1000,0,2000)",coin+nAcSB+"&&"+E_SB+">3600 &&"+E_SB+"<4000");
+    npdg->Draw("TDC_BGO_M>>hAcM4(1000,0,2000)",coin+nAcM+"&&"+E_M+">3600 &&"+E_M+"<4000");
+    npdg->Draw("TDC_BGO_L_F>>hAcLF4(1000,0,2000)",coin+nAcLF+"&&"+E_LF+">3600 &&"+E_LF+"<4000");
+    npdg->Draw("TDC_BGO_L_B>>hAcLB4(1000,0,2000)",coin+nAcLB+"&&"+E_LB+">3600 &&"+E_LB+"<4000");
+
+    /*
+    TH1F* hAcoin4 = (TH1F*) hAcST4->Clone("hAcoin4");
+    hAcoin4->Add(hAcSB4);
+    hAcoin4->Add(hAcM4);
+    hAcoin4->Add(hAcLF4);
+    hAcoin4->Add(hAcLB4);
+    */
+
+    TH1F* hAcoin4 = (TH1F*) hAcLF4->Clone("hAcoin4");
+
+    if(verbose) cout<< "done!"<< endl;
+}
+if(plotB){
+    //=================
+    //AT B coincidences
+    //=================
+
+    if(verbose) cout<< "Plotting AT_B histograms..."<< endl;
+    if(verbose) cout<< "Region 1...";
+
+    // Region 1
+    npdg->Draw("TDC_BGO_S_T>>hBcST1(1000,0,2000)",coin+nBcST+"&&"+E_ST+">2000 &&"+E_ST+"<2600");
+    npdg->Draw("TDC_BGO_S_B>>hBcSB1(1000,0,2000)",coin+nBcSB+"&&"+E_SB+">2000 &&"+E_SB+"<2600");
+    npdg->Draw("TDC_BGO_M>>hBcM1(1000,0,2000)",coin+nBcM+"&&"+E_M+">2000 &&"+E_M+"<2600");
+    npdg->Draw("TDC_BGO_L_F>>hBcLF1(1000,0,2000)",coin+nBcLF+"&&"+E_LF+">2000 &&"+E_LF+"<2600");
+    npdg->Draw("TDC_BGO_L_B>>hBcLB1(1000,0,2000)",coin+nBcLB+"&&"+E_LB+">2000 &&"+E_LB+"<2600");
+
+    /*
+    TH1F* hBcoin1 = (TH1F*) hBcST1->Clone("hBcoin1");
+    hBcoin1->Add(hBcSB1);
+    hBcoin1->Add(hBcM1);
+    hBcoin1->Add(hBcLF1);
+    hBcoin1->Add(hBcLB1);
+    */
+
+    TH1F* hBcoin1 = (TH1F*) hBcLF1->Clone("hBcoin1");
+
+    if(verbose) cout<< "done!"<< endl;
+    if(verbose) cout<< "Region 2...";
+
+    // Region 2
+    npdg->Draw("TDC_BGO_S_T>>hBcST2(1000,0,2000)",coin+nBcST+"&&"+E_ST+">2600 &&"+E_ST+"<3200");
+    npdg->Draw("TDC_BGO_S_B>>hBcSB2(1000,0,2000)",coin+nBcSB+"&&"+E_SB+">2600 &&"+E_SB+"<3200");
+    npdg->Draw("TDC_BGO_M>>hBcM2(1000,0,2000)",coin+nBcM+"&&"+E_M+">2600 &&"+E_M+"<3200");
+    npdg->Draw("TDC_BGO_L_F>>hBcLF2(1000,0,2000)",coin+nBcLF+"&&"+E_LF+">2600 &&"+E_LF+"<3200");
+    npdg->Draw("TDC_BGO_L_B>>hBcLB2(1000,0,2000)",coin+nBcLB+"&&"+E_LB+">2600 &&"+E_LB+"<3200");
+
+    /*
+    TH1F* hBcoin2 = (TH1F*) hBcST2->Clone("hBcoin2");
+    hBcoin2->Add(hBcSB2);
+    hBcoin2->Add(hBcM2);
+    hBcoin2->Add(hBcLF2);
+    hBcoin2->Add(hBcLB2);
+    */
+
+    TH1F* hBcoin2 = (TH1F*) hBcLF2->Clone("hBcoin2");
+
+    if(verbose) cout<< "done!"<< endl;
+    if(verbose) cout<< "Region 3...";
+
+    // Region 3
+    npdg->Draw("TDC_BGO_S_T>>hBcST3(1000,0,2000)",coin+nBcST+"&&"+E_ST+">3200 &&"+E_ST+"<3600");
+    npdg->Draw("TDC_BGO_S_B>>hBcSB3(1000,0,2000)",coin+nBcSB+"&&"+E_SB+">3200 &&"+E_SB+"<3600");
+    npdg->Draw("TDC_BGO_M>>hBcM3(1000,0,2000)",coin+nBcM+"&&"+E_M+">3200 &&"+E_M+"<3600");
+    npdg->Draw("TDC_BGO_L_F>>hBcLF3(1000,0,2000)",coin+nBcLF+"&&"+E_LF+">3200 &&"+E_LF+"<3600");
+    npdg->Draw("TDC_BGO_L_B>>hBcLB3(1000,0,2000)",coin+nBcLB+"&&"+E_LB+">3200 &&"+E_LB+"<3600");
+
+    /*
+    TH1F* hBcoin3 = (TH1F*) hBcST3->Clone("hBcoin3");
+    hBcoin3->Add(hBcSB3);
+    hBcoin3->Add(hBcM3);
+    hBcoin3->Add(hBcLF3);
+    hBcoin3->Add(hBcLB3);
+    */
+
+
+    if(verbose) cout<< "done!"<< endl;
+    if(verbose) cout<< "Region 4...";
+
+    // Region 4
+    npdg->Draw("TDC_BGO_S_T>>hBcST4(1000,0,2000)",coin+nBcST+"&&"+E_ST+">3600 &&"+E_ST+"<4000");
+    npdg->Draw("TDC_BGO_S_B>>hBcSB4(1000,0,2000)",coin+nBcSB+"&&"+E_SB+">3600 &&"+E_SB+"<4000");
+    npdg->Draw("TDC_BGO_M>>hBcM4(1000,0,2000)",coin+nBcM+"&&"+E_M+">3600 &&"+E_M+"<4000");
+    npdg->Draw("TDC_BGO_L_F>>hBcLF4(1000,0,2000)",coin+nBcLF+"&&"+E_LF+">3600 &&"+E_LF+"<4000");
+    npdg->Draw("TDC_BGO_L_B>>hBcLB4(1000,0,2000)",coin+nBcLB+"&&"+E_LB+">3600 &&"+E_LB+"<4000");
+
+    TH1F* hBcoin4 = (TH1F*) hBcST4->Clone("hBcoin4");
+    hBcoin4->Add(hBcSB4);
+    hBcoin4->Add(hBcM4);
+    hBcoin4->Add(hBcLF4);
+    hBcoin4->Add(hBcLB4);
+
+    if(verbose) cout<< "done!"<< endl;
+}
+/*
+    if(verbose) cout<< "Subtracting Background..." << endl;
+    //=================
+    //BG Subtraction
+    //=================
+if(plotA){
+    hAcoin1->Add(hAcoin1bg,-1);
+    hAcoin2->Add(hAcoin2bg,-1);
+    hAcoin3->Add(hAcoin3bg,-1);
+    hAcoin4->Add(hAcoin4bg,-1);
+}
+if(plotB){
+    hBcoin1->Add(hBcoin1bg,-1);
+    hBcoin2->Add(hBcoin2bg,-1);
+    hBcoin3->Add(hBcoin3bg,-1);
+    hBcoin4->Add(hBcoin4bg,-1);
+}
+*/
+    if(verbose) cout<< "Displaying..." << endl;
+    //=================
+    //Display
+    //=================
+if(plotA){
+    c1->Clear();
+    c1->Divide(2,2,0.01,0.01);
+    c1->cd(1);
+    hAcoin1->Draw();
+    c1->cd(2);
+    hAcoin2->Draw();
+    c1->cd(3);
+    hAcoin3->Draw();
+    c1->cd(4);
+    hAcoin4->Draw();
+
+    cout<< "AT A Region 1 Peak Count: " << hAcoin1.Integral(hAcoin1->GetXaxis()->FindBin(763),hAcoin1->GetXaxis()->FindBin(830)) << endl;
+    cout<< "AT A Region 2* Peak Count: " << hAcoin2.Integral(hAcoin1->GetXaxis()->FindBin(737),hAcoin1->GetXaxis()->FindBin(830)) << endl;
+    cout<< "AT A Region 3 Peak Count: " << hAcoin3.Integral(hAcoin1->GetXaxis()->FindBin(737),hAcoin1->GetXaxis()->FindBin(830)) << endl;
+    cout<< "AT A Region 4 Peak Count: " << hAcoin4.Integral(hAcoin1->GetXaxis()->FindBin(737),hAcoin1->GetXaxis()->FindBin(830)) << endl;
+}
+if(plotB){
+    TCanvas *c2= new TCanvas();
+    c2->Clear();
+    c2->Divide(2,2,0.01,0.01);
+    c2->cd(1);
+    hBcoin1->Draw();
+    c2->cd(2);
+    hBcoin2->Draw();
+    c2->cd(3);
+    hBcoin3->Draw();
+    c2->cd(4);
+    hBcoin4->Draw();
+
+    cout<< "AT B Region 1 Peak Count: " << hBcoin1.Integral(hBcoin1->GetXaxis()->FindBin(737),hBcoin1->GetXaxis()->FindBin(815)) << endl;
+    cout<< "AT B Region 2* Peak Count: " << hBcoin2.Integral(hBcoin1->GetXaxis()->FindBin(737),hBcoin1->GetXaxis()->FindBin(815)) << endl;
+    cout<< "AT B Region 3 Peak Count: " << hBcoin3.Integral(hBcoin1->GetXaxis()->FindBin(737),hBcoin1->GetXaxis()->FindBin(815)) << endl;
+    cout<< "AT B Region 4 Peak Count: " << hBcoin4.Integral(hBcoin1->GetXaxis()->FindBin(737),hBcoin1->GetXaxis()->FindBin(815)) << endl;
+}
+}
